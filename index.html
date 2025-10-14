@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Tech Solutions & Trainings - Digital Career Bootcamp</title>
-    <!-- Load Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Poppins Font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Load Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Poppins Font from Google Fonts --><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* Custom styles and configuration */
         body {
@@ -256,26 +254,21 @@
 </head>
 <body class="text-primary-dark">
 
-    <!-- Global Message Box (Instead of alert()) -->
-    <div id="messageBox" class="hidden fixed top-4 right-4 bg-primary-dark text-white p-4 rounded-lg shadow-xl z-50 transition duration-300">
+    <!-- Global Message Box (Instead of alert()) --><div id="messageBox" class="hidden fixed top-4 right-4 bg-primary-dark text-white p-4 rounded-lg shadow-xl z-50 transition duration-300">
         <p id="messageText" class="font-semibold"></p>
     </div>
 
-    <!-- Navigation Bar -->
-    <header class="bg-white sticky top-0 z-40 shadow-md">
+    <!-- Navigation Bar --><header class="bg-white sticky top-0 z-40 shadow-md">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo and Company Name (Text is the main logo) -->
-            <a href="#" class="flex items-center text-primary-dark">
+            <!-- Logo and Company Name (Text is the main logo) --><a href="#" class="flex items-center text-primary-dark">
                 <span class="text-sm sm:text-lg font-extrabold tracking-tight text-primary-dark">SMART TECH SOLUTIONS AND TRAININGS</span>
             </a>
-            <!-- CTA Button (Visible on Desktop/Tablet) -->
-            <div class="hidden md:flex space-x-4">
+            <!-- CTA Button (Visible on Desktop/Tablet) --><div class="hidden md:flex space-x-4">
                 <button onclick="scrollToSection('pricing')" class="px-6 py-2 bg-primary-blue text-white font-semibold rounded-full hover:bg-primary-dark transition duration-300 shadow-lg hover:shadow-xl">
                     Enroll Now
                 </button>
             </div>
-            <!-- Mobile Menu Placeholder -->
-            <div class="md:hidden">
+            <!-- Mobile Menu Placeholder --><div class="md:hidden">
                 <button class="text-primary-dark focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
@@ -284,21 +277,17 @@
     </header>
 
     <main class="fade-in">
-        <!-- 1. Hero Section -->
-        <section id="hero" class="bg-primary-dark text-white pt-16 pb-24 md:pt-24 md:pb-32 relative overflow-hidden">
+        <!-- 1. Hero Section --><section id="hero" class="bg-primary-dark text-white pt-16 pb-24 md:pt-24 md:pb-32 relative overflow-hidden">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="max-w-4xl mx-auto text-center">
-                    <!-- Slogan -->
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 tracking-tight">
+                    <!-- Slogan --><h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 tracking-tight">
                         <span class="text-accent-yellow">Choose your path.</span> Master a skill. <span class="text-primary-blue">Build your digital career.</span>
                     </h1>
-                    <!-- Introductory Paragraph -->
-                    <p class="text-xl text-light-grey mb-8 max-w-2xl mx-auto font-light">
+                    <!-- Introductory Paragraph --><p class="text-xl text-light-grey mb-8 max-w-2xl mx-auto font-light">
                         Join our expert-led Bootcamp and master one in-demand digital skill that prepares you for real opportunities, global clients, and lasting success.
                     </p>
 
-                    <!-- CTAs -->
-                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <!-- CTAs --><div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <a href="#skills" class="px-8 py-4 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02] active:scale-100">
                             Choose Your Skill & Enroll
                         </a>
@@ -308,88 +297,61 @@
                     </div>
                 </div>
             </div>
-            <!-- Decorative wave/swoosh -->
-            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-f7f9fc to-transparent"></div>
-        </section>
-
-        <!-- NEW SECTION: Image Reinforcement (WITH ONERROR FALLBACK) -->
-        <section class="py-12 md:py-16 bg-f7f9fc">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-                <!-- IMPORTANT: Re-using the confirmed correct file path and adding a JavaScript fallback -->
-                <img 
-                    src="uploaded:Gemini_Generated_Image_7pro7b7pro7b7pro.jpg-63c9d9ee-9296-415c-9650-efcd57d0dc51" 
-                    alt="Smiling woman wearing a Smart Tech t-shirt working on a laptop near a large window, symbolizing remote work and success." 
-                    class="w-full h-auto object-cover rounded-3xl shadow-2xl border-4 border-white transform hover:scale-[1.005] transition duration-500"
-                    onerror="onImageError(this)"
-                >
-            </div>
+            <!-- Decorative wave/swoosh --><div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-f7f9fc to-transparent"></div>
         </section>
 
 
-        <!-- 2. About/Mission Section -->
-        <section class="py-20 bg-white">
+        <!-- 2. About/Mission Section --><section class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center">
                     <h2 class="text-sm font-bold uppercase tracking-widest text-primary-blue mb-3">Our Mission</h2>
                     <p class="text-2xl md:text-3xl font-bold mb-6 text-primary-dark">
                         Empowering You for Global Digital Success.
                     </p>
-                    <!-- Company name corrected -->
-                    <p class="text-lg text-gray-600 leading-relaxed">
+                    <!-- Company name corrected --><p class="text-lg text-gray-600 leading-relaxed">
                         At Smart Tech Solutions and Trainings, we empower individuals to launch or advance their digital careers through expert-led training in today’s most in-demand skills. Our approach combines technical mastery with professional excellence, helping learners gain practical experience, global relevance, and the confidence to thrive in the modern digital economy.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- 3. Top 5 Benefits / Features -->
-        <section class="py-20 bg-light-grey/30">
+        <!-- 3. Top 5 Benefits / Features --><section class="py-20 bg-light-grey/30">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12 text-primary-dark">
                     What Makes Our Bootcamp Stand Out?
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                    <!-- Feature Card 1 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
+                    <!-- Feature Card 1 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
                         <div class="text-primary-blue mb-4">
-                            <!-- Icon: Graduation Cap -->
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.656-6.479L12 14z"/></svg>
+                            <!-- Icon: Graduation Cap --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.656-6.479L12 14z"/></svg>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Expert-Led Training</h3>
                         <p class="text-sm text-gray-600">Learn directly from seasoned industry professionals with real-world experience.</p>
                     </div>
-                    <!-- Feature Card 2 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
+                    <!-- Feature Card 2 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
                         <div class="text-accent-yellow mb-4">
-                            <!-- Icon: Toggles/Settings -->
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <!-- Icon: Toggles/Settings --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Flexible Skill Tracks</h3>
                         <p class="text-sm text-gray-600">Choose from 10 high-demand digital skills tailored to your interests and goals.</p>
                     </div>
-                    <!-- Feature Card 3 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-cyan">
+                    <!-- Feature Card 3 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-cyan">
                         <div class="text-accent-cyan mb-4">
-                            <!-- Icon: Laptop with Code -->
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 17h18M5 17h14c.276 0 .5-.224.5-.5V14.5a.5.5 0 00-.5-.5H5a.5.5 0 00-.5.5v2c0 .276.224.5.5.5zM7 9h10m-10 4h10m-10-8h10M5 17.5l2-8 3-4 4 4 3 8"></path></svg>
+                            <!-- Icon: Laptop with Code --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 17h18M5 17h14c.276 0 .5-.224.5-.5V14.5a.5.5 0 00-.5-.5H5a.5.5 0 00-.5.5v2c0 .276.224.5.5.5zM7 9h10m-10 4h10m-10-8h10M5 17.5l2-8 3-4 4 4 3 8"></path></svg>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Hands-On Learning</h3>
                         <p class="text-sm text-gray-600">Build real projects and portfolios that showcase your skills to global employers.</p>
                     </div>
-                    <!-- Feature Card 4 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
+                    <!-- Feature Card 4 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
                         <div class="text-primary-blue mb-4">
-                            <!-- Icon: Mentorship/Guidance -->
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.565 23.565 0 0112 15c-3.18 0-6.233-.62-9-1.745M16 4h4m-2 2v-4m-6 10H4m16 4H4m10-4H4m10 4l6 6m-6-6l6-6"/></svg>
+                            <!-- Icon: Mentorship/Guidance --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.565 23.565 0 0112 15c-3.18 0-6.233-.62-9-1.745M16 4h4m-2 2v-4m-6 10H4m16 4H4m10-4H4m10 4l6 6m-6-6l6-6"/></svg>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Career Mentorship</h3>
                         <p class="text-sm text-gray-600">Receive guidance to position yourself for remote work and freelance opportunities.</p>
                     </div>
-                    <!-- Feature Card 5 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
+                    <!-- Feature Card 5 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
                         <div class="text-accent-yellow mb-4">
-                            <!-- Icon: Integrity/Values -->
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <!-- Icon: Integrity/Values --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
                         <h3 class="text-xl font-bold mb-2">Values-Driven</h3>
                         <p class="text-sm text-gray-600">Grow in discipline, reliability, and integrity—qualities that set you apart.</p>
@@ -398,8 +360,7 @@
             </div>
         </section>
 
-        <!-- 4. Skill Tracks Section -->
-        <section id="skills" class="py-20 bg-white">
+        <!-- 4. Skill Tracks Section --><section id="skills" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
@@ -410,46 +371,35 @@
                     </p>
                 </div>
 
-                <!-- Skill Grid - NOW CLICKABLE BUTTONS -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
-                    <!-- Virtual Assistant -->
-                    <button id="skill-Virtual_Assistant" onclick="selectSkill('Virtual Assistant')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                <!-- Skill Grid - NOW CLICKABLE BUTTONS --><div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
+                    <!-- Virtual Assistant --><button id="skill-Virtual_Assistant" onclick="selectSkill('Virtual Assistant')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Virtual Assistant
                     </button>
-                    <!-- Copy Writing -->
-                    <button id="skill-Copy_Writing" onclick="selectSkill('Copy Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Copy Writing --><button id="skill-Copy_Writing" onclick="selectSkill('Copy Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Copy Writing
                     </button>
-                    <!-- Content Writing -->
-                    <button id="skill-Content_Writing" onclick="selectSkill('Content Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Content Writing --><button id="skill-Content_Writing" onclick="selectSkill('Content Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Content Writing
                     </button>
-                    <!-- Web Development -->
-                    <button id="skill-Web_Development" onclick="selectSkill('Web Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Web Development --><button id="skill-Web_Development" onclick="selectSkill('Web Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Web Development
                     </button>
-                    <!-- Flutter Mobile Development -->
-                    <button id="skill-Flutter_Mobile_Development" onclick="selectSkill('Flutter Mobile Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Flutter Mobile Development --><button id="skill-Flutter_Mobile_Development" onclick="selectSkill('Flutter Mobile Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Flutter Mobile Dev.
                     </button>
-                    <!-- Social Media Management -->
-                    <button id="skill-Social_Media_Management" onclick="selectSkill('Social Media Management')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Social Media Management --><button id="skill-Social_Media_Management" onclick="selectSkill('Social Media Management')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Social Media Management
                     </button>
-                    <!-- Digital Marketing -->
-                    <button id="skill-Digital_Marketing" onclick="selectSkill('Digital Marketing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Digital Marketing --><button id="skill-Digital_Marketing" onclick="selectSkill('Digital Marketing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Digital Marketing
                     </button>
-                    <!-- Data Analysis -->
-                    <button id="skill-Data_Analysis" onclick="selectSkill('Data Analysis')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Data Analysis --><button id="skill-Data_Analysis" onclick="selectSkill('Data Analysis')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Data Analysis
                     </button>
-                    <!-- Video Editing -->
-                    <button id="skill-Video_Editing" onclick="selectSkill('Video Editing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Video Editing --><button id="skill-Video_Editing" onclick="selectSkill('Video Editing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Video Editing
                     </button>
-                    <!-- Graphic Design -->
-                    <button id="skill-Graphic_Design" onclick="selectSkill('Graphic Design')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
+                    <!-- Graphic Design --><button id="skill-Graphic_Design" onclick="selectSkill('Graphic Design')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Graphic Design
                     </button>
                 </div>
@@ -462,8 +412,7 @@
             </div>
         </section>
 
-        <!-- 5. Testimonials Section -->
-        <section class="py-20 bg-primary-dark/95 text-white">
+        <!-- 5. Testimonials Section --><section class="py-20 bg-primary-dark/95 text-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
                     Proof of Excellence
@@ -472,13 +421,9 @@
                     <span class="text-accent-yellow font-bold">200+ trained</span>—Hear how our alumni are building successful careers globally.
                 </p>
 
-                <!-- Testimonial Horizontal Scroller Container -->
-                <!-- The container uses the new testimonial-snap-container class for scroll-snap and scrollbar hiding -->
-                <div class="flex overflow-x-auto space-x-6 pb-4 max-w-6xl mx-auto testimonial-snap-container scroll-smooth">
+                <!-- Testimonial Horizontal Scroller Container --><!-- The container uses the new testimonial-snap-container class for scroll-snap and scrollbar hiding --><div class="flex overflow-x-auto space-x-6 pb-4 max-w-6xl mx-auto testimonial-snap-container scroll-smooth">
 
-                    <!-- Testimonial 1: Social Media Management (Khamieje) -->
-                    <!-- Each card uses the new testimonial-card-item class for responsive width and snap alignment -->
-                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
+                    <!-- Testimonial 1: Social Media Management (Khamieje) --><!-- Each card uses the new testimonial-card-item class for responsive width and snap alignment --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
                         <div class="mb-4 border-b pb-4">
                             <p class="font-bold text-lg text-primary-blue">Khamieje Dmosnoba Precious</p>
                             <p class="text-xs text-gray-500">Graduate of Social Media Management</p>
@@ -488,8 +433,7 @@
                         </p>
                     </div>
 
-                    <!-- Testimonial 2: Data Analytics (Olise) -->
-                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
+                    <!-- Testimonial 2: Data Analytics (Olise) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
                         <div class="mb-4 border-b pb-4">
                             <p class="font-bold text-lg text-primary-blue">Olise Sophia Amarachi</p>
                             <p class="text-xs text-gray-500">Graduate of Data Analytics</p>
@@ -499,8 +443,7 @@
                         </p>
                     </div>
 
-                    <!-- Testimonial 3: Flutter Mobile Development (Zarah) -->
-                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-cyan text-left transform hover:shadow-2xl transition duration-300">
+                    <!-- Testimonial 3: Flutter Mobile Development (Zarah) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-cyan text-left transform hover:shadow-2xl transition duration-300">
                         <div class="mb-4 border-b pb-4">
                             <p class="font-bold text-lg text-primary-blue">Zarah Hope</p>
                             <p class="text-xs text-gray-500">Graduate of Flutter Mobile Development</p>
@@ -510,8 +453,7 @@
                         </p>
                     </div>
                     
-                    <!-- Testimonial 4: Virtual Assistant (Kunle-Efunnuga) -->
-                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
+                    <!-- Testimonial 4: Virtual Assistant (Kunle-Efunnuga) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
                         <div class="mb-4 border-b pb-4">
                             <p class="font-bold text-lg text-primary-blue">Kunle-Efunnuga Ruth Ifeoluwa</p>
                             <p class="text-xs text-gray-500">Graduate of Virtual Assistant Training</p>
@@ -521,8 +463,7 @@
                         </p>
                     </div>
 
-                    <!-- Testimonial 5: Graphic Design (Favour Elohor) -->
-                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
+                    <!-- Testimonial 5: Graphic Design (Favour Elohor) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
                         <div class="mb-4 border-b pb-4">
                             <p class="font-bold text-lg text-primary-blue">Favour Elohor</p>
                             <p class="text-xs text-gray-500">Graduate of Graphic Design</p>
@@ -536,8 +477,7 @@
             </div>
         </section>
 
-        <!-- 6. Pricing Section -->
-        <section id="pricing" class="py-20 bg-white">
+        <!-- 6. Pricing Section --><section id="pricing" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
@@ -548,16 +488,13 @@
                     </p>
                 </div>
                 
-                <!-- Dynamic Skill Display Banner -->
-                <div id="selectedSkillDisplay" class="hidden max-w-2xl mx-auto bg-primary-blue text-white p-4 rounded-xl text-center text-xl font-bold mb-8 shadow-lg transition duration-300 transform scale-100">
-                    <!-- Text will be updated by selectSkill() function -->
-                    Enrolling for: [Skill Name Placeholder]
+                <!-- Dynamic Skill Display Banner --><div id="selectedSkillDisplay" class="hidden max-w-2xl mx-auto bg-primary-blue text-white p-4 rounded-xl text-center text-xl font-bold mb-8 shadow-lg transition duration-300 transform scale-100">
+                    <!-- Text will be updated by selectSkill() function -->Enrolling for: [Skill Name Placeholder]
                 </div>
 
 
                 <div class="flex flex-col lg:flex-row justify-center space-y-8 lg:space-y-0 lg:space-x-8">
-                    <!-- Early Bird Offer Card -->
-                    <div class="flex-1 max-w-md mx-auto bg-primary-dark text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden transform scale-105 border-4 border-accent-yellow">
+                    <!-- Early Bird Offer Card --><div class="flex-1 max-w-md mx-auto bg-primary-dark text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden transform scale-105 border-4 border-accent-yellow">
                         <div class="absolute top-0 right-0 bg-accent-yellow text-primary-dark px-4 py-1 rounded-bl-lg font-bold text-sm">BEST VALUE</div>
                         <h3 class="text-3xl font-extrabold text-accent-yellow mb-2">Early Bird Special</h3>
                         <p class="text-light-grey text-lg mb-6">Limited spots available at this price!</p>
@@ -575,8 +512,7 @@
                             <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Premium Discount Rate</li>
                         </ul>
 
-                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION -->
-                        <div class="space-y-4">
+                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION --><div class="space-y-4">
                             <button onclick="handlePaymentClick(5000, 'Naira')" class="w-full py-3 bg-accent-yellow text-primary-dark font-bold text-lg rounded-xl hover:bg-yellow-500 transition duration-300 shadow-lg transform hover:scale-[1.01]">
                                 Pay in Naira (₦5,000)
                             </button>
@@ -586,8 +522,7 @@
                         </div>
                     </div>
 
-                    <!-- Late Bird Offer Card -->
-                    <div class="flex-1 max-w-md mx-auto bg-white p-8 rounded-3xl shadow-lg border-2 border-light-grey/50">
+                    <!-- Late Bird Offer Card --><div class="flex-1 max-w-md mx-auto bg-white p-8 rounded-3xl shadow-lg border-2 border-light-grey/50">
                         <h3 class="text-3xl font-extrabold text-primary-dark mb-2">Standard Enrollment</h3>
                         <p class="text-gray-600 text-lg mb-6">Price after the Early Bird window closes.</p>
 
@@ -603,8 +538,7 @@
                             <li class="flex items-center"><span class="text-primary-blue mr-2">✗</span> No Early Bird Discount</li>
                         </ul>
 
-                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION -->
-                        <div class="space-y-4">
+                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION --><div class="space-y-4">
                             <button onclick="handlePaymentClick(8000, 'Naira')" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark/90 transition duration-300 shadow-md">
                                 Pay in Naira (₦8,000)
                             </button>
@@ -617,8 +551,7 @@
             </div>
         </section>
 
-        <!-- 7. Email Capture / Footer -->
-        <footer class="bg-primary-dark py-16">
+        <!-- 7. Email Capture / Footer --><footer class="bg-primary-dark py-16">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-3xl mx-auto text-center">
                     <h2 class="text-3xl font-extrabold text-accent-cyan mb-3">
@@ -628,8 +561,7 @@
                         Join our mailing list for updates, free resources, and early access notifications.
                     </p>
 
-                    <!-- Email Capture Form -->
-                    <form onsubmit="event.preventDefault(); document.getElementById('messageText').textContent='Thank you for subscribing!'; document.getElementById('messageBox').classList.remove('hidden'); setTimeout(() => document.getElementById('messageBox').classList.add('hidden'), 3000);" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <!-- Email Capture Form --><form onsubmit="event.preventDefault(); document.getElementById('messageText').textContent='Thank you for subscribing!'; document.getElementById('messageBox').classList.remove('hidden'); setTimeout(() => document.getElementById('messageBox').classList.add('hidden'), 3000);" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                         <input type="email" placeholder="Enter your email address (SFProDisplay style input)" required class="w-full sm:flex-1 p-4 rounded-xl text-primary-dark focus:outline-none focus:ring-2 focus:ring-accent-yellow font-['system-ui',_sans-serif]">
                         <button type="submit" class="px-8 py-4 bg-accent-yellow text-primary-dark font-bold rounded-xl hover:bg-yellow-500 transition duration-300 shadow-md">
                             Subscribe
@@ -640,8 +572,7 @@
                         <p class="text-sm text-light-grey">
                             &copy; 2025 Smart Tech Solutions and Trainings. All rights reserved.
                         </p>
-                        <!-- Final Motto/Slogan -->
-                        <p class="text-xs mt-2 text-light-grey/70">
+                        <!-- Final Motto/Slogan --><p class="text-xs mt-2 text-light-grey/70">
                             Excellent solutions and trainings.
                         </p>
                     </div>
@@ -651,11 +582,9 @@
 
     </main>
 
-    <!-- Early Bird Offer Modal -->
-    <div id="earlyBirdModal" style="opacity: 0;" class="hidden fixed inset-0 bg-primary-dark/80 z-50 flex items-center justify-center p-4 modal-transition-container">
+    <!-- Early Bird Offer Modal --><div id="earlyBirdModal" style="opacity: 0;" class="hidden fixed inset-0 bg-primary-dark/80 z-50 flex items-center justify-center p-4 modal-transition-container">
         <div id="earlyBirdModalContent" class="bg-white p-8 rounded-3xl shadow-2xl max-w-lg w-full text-center relative transform modal-transition-content scale-90">
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-primary-dark transition duration-200 focus:outline-none">
+            <!-- Close Button --><button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-primary-dark transition duration-200 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
@@ -667,8 +596,7 @@
             
             <div class="bg-light-grey/30 p-4 rounded-xl mb-6">
                 <p class="text-lg font-bold text-gray-700">Today's Price:</p>
-                <!-- USD price displayed here -->
-                <p class="text-6xl font-extrabold text-primary-dark">₦5,000</p>
+                <!-- USD price displayed here --><p class="text-6xl font-extrabold text-primary-dark">₦5,000</p>
                 <p class="text-2xl font-semibold text-primary-dark/90 mt-1">or $3 USD</p>
                 <p class="text-sm text-gray-500 line-through mt-2">Standard: ₦8,000 / $5 USD</p>
             </div>
@@ -681,6 +609,3 @@
     </div>
 </body>
 </html>
-
-
-

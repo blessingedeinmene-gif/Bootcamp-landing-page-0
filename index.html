@@ -16,17 +16,81 @@
             background-color: #f7f9fc; /* Off-white background */
         }
         /* Custom style for skill buttons to look clickable */
+        .skill-button {
+            /* Ensure all properties we want to transition are covered */
+            transition: all 0.2s ease-in-out; 
+        }
+
         .skill-button:hover {
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(11, 16, 222, 0.2); /* Soft shadow on hover */
         }
+        
+        /* KEYFRAME: Pop effect on selection */
+        @keyframes skill-pop {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(11, 16, 222, 0.2); }
+            50% { transform: scale(1.08); box-shadow: 0 6px 20px rgba(254, 198, 17, 0.5); }
+            100% { transform: scale(1.05); box-shadow: 0 4px 15px rgba(254, 198, 17, 0.3); }
+        }
+
         .skill-button.selected {
             background-color: #0B10DE; /* Primary Blue */
             color: white;
             font-weight: 600;
             border: 2px solid #FEC611; /* Accent Yellow border */
             transform: scale(1.05);
+            /* Apply the new pop animation for dynamic feedback */
+            animation: skill-pop 0.3s ease-out forwards;
         }
+
+        /* CSS for the page load fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Custom utility for modal backdrop transition */
+        .modal-transition-container {
+            transition: opacity 0.3s ease-out;
+        }
+        .modal-transition-content {
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease-out;
+        }
+
+        /* --- TESTIMONIAL SNAP AND SCROLLBAR HIDING --- */
+        .testimonial-snap-container {
+            scroll-snap-type: x mandatory; /* The core snapping behavior */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            padding-left: 1.5rem; /* Match the px-6 padding of the container */
+            padding-right: 1.5rem; /* Match the px-6 padding of the container */
+        }
+        
+        .testimonial-snap-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .testimonial-card-item {
+            scroll-snap-align: start; /* Snap each card to the start of the scroll container */
+            margin-right: 1.5rem; /* Consistent spacing between cards */
+        }
+
+        /* Responsive Widths for Cards within the Snap Container */
+        .testimonial-card-item {
+            width: calc(100vw - 3rem); /* Full viewport width minus container padding (1.5rem + 1.5rem) */
+            flex-shrink: 0;
+            min-height: 220px; /* Ensure a minimum height for consistency */
+        }
+
+        @media (min-width: 640px) { /* sm breakpoint */
+            .testimonial-card-item {
+                width: 400px; /* Fixed width on tablet/desktop for better control */
+            }
+        }
+        
     </style>
     <script>
         tailwind.config = {
@@ -67,12 +131,14 @@
             
             // 1. Update UI to highlight the selected button
             document.querySelectorAll('.skill-button').forEach(button => {
+                // Clear the 'selected' class and thus reset the pop animation
                 button.classList.remove('selected');
                 button.classList.remove('bg-primary-blue', 'text-white');
                 button.classList.add('bg-light-grey/20', 'text-primary-dark'); // Reset default style
             });
             const button = document.getElementById(`skill-${skillName.replace(/\s/g, '_')}`);
             if (button) {
+                // Re-add the 'selected' class which triggers the CSS animation
                 button.classList.add('selected');
                 button.classList.remove('bg-light-grey/20', 'text-primary-dark');
             }
@@ -89,13 +155,14 @@
         }
         
         // Function to handle payment click and redirect
-        function handlePaymentClick(priceType, currency, skill) {
+        function handlePaymentClick(priceType, currency) {
             if (!selectedSkill) {
                  const messageBox = document.getElementById('messageBox');
                  const messageText = document.getElementById('messageText');
                  messageText.textContent = `Please select a skill track first!`;
                  messageBox.classList.remove('hidden');
-                 setTimeout(() => messageBox.classList.add('hidden'), 3000);
+                 // Only hide the message box, don't use alert() or confirm()
+                 setTimeout(() => messageBox.classList.add('hidden'), 3000); 
                  scrollToSection('skills');
                  return;
             }
@@ -122,10 +189,42 @@
             window.open(finalUrl, '_blank');
         }
 
-        // Initialize by selecting a default skill or ensuring none is selected
+        // --- Modal Logic ---
+
+        function showModal() {
+            const modal = document.getElementById('earlyBirdModal');
+            const modalContent = document.getElementById('earlyBirdModalContent');
+
+            // Show the modal container (backdrop)
+            modal.classList.remove('hidden');
+            
+            // Start transition: opacity and scale
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modalContent.classList.remove('scale-90');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('earlyBirdModal');
+            const modalContent = document.getElementById('earlyBirdModalContent');
+
+            // Start fade out and scale down transition
+            modal.style.opacity = '0';
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-90');
+
+            // Hide the modal container after transition finishes
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 500); // 500ms matches the transition duration
+        }
+
+        // Initialize by showing the modal
         document.addEventListener('DOMContentLoaded', () => {
-             // Optional: highlight the first skill by default or keep it clear
-             // selectSkill('Virtual Assistant'); 
+             // Trigger the pop-up modal after 2 seconds
+             setTimeout(showModal, 2000);
         });
 
     </script>
@@ -140,12 +239,9 @@
     <!-- Navigation Bar -->
     <header class="bg-white sticky top-0 z-40 shadow-md">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo and Company Name (Text added back) -->
-            <a href="#" class="flex items-center text-primary-dark space-x-2">
-                <!-- Company Logo Image -->
-                <img src="uploaded:WhatsApp Image 2025-10-14 at 01.21.03.jpeg-fa2cd600-a7a8-41e8-85b6-30d37998b228" alt="Company Logo" class="h-8 object-contain">
-                <!-- Added Company Name Text, hidden on smallest screens for responsiveness -->
-                <span class="text-xs sm:text-base font-bold hidden sm:block">SMART TECH SOLUTIONS AND TRAININGS</span>
+            <!-- Logo and Company Name (Text is the main logo) -->
+            <a href="#" class="flex items-center text-primary-dark">
+                <span class="text-sm sm:text-lg font-extrabold tracking-tight text-primary-dark">SMART TECH SOLUTIONS AND TRAININGS</span>
             </a>
             <!-- CTA Button (Visible on Desktop/Tablet) -->
             <div class="hidden md:flex space-x-4">
@@ -162,7 +258,7 @@
         </nav>
     </header>
 
-    <main>
+    <main class="fade-in">
         <!-- 1. Hero Section -->
         <section id="hero" class="bg-primary-dark text-white pt-16 pb-24 md:pt-24 md:pb-32 relative overflow-hidden">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -179,18 +275,15 @@
                     <!-- CTAs -->
                     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <a href="#skills" class="px-8 py-4 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02] active:scale-100">
-                            🔥 Choose Your Skill & Enroll
+                            Choose Your Skill & Enroll
                         </a>
                         <button onclick="scrollToSection('skills')" class="px-8 py-4 bg-transparent border-2 border-accent-yellow text-accent-yellow font-bold text-lg rounded-xl hover:bg-accent-yellow hover:text-primary-dark transition duration-300 transform hover:scale-[1.02] active:scale-100">
                             Explore Skill Tracks
                         </button>
                     </div>
-
-                    <!-- Stats (REMOVED) -->
-                    
                 </div>
             </div>
-            <!-- Decorative wave/swoosh (Visual Element Placeholder) -->
+            <!-- Decorative wave/swoosh -->
             <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-f7f9fc to-transparent"></div>
         </section>
 
@@ -281,43 +374,43 @@
                 <!-- Skill Grid - NOW CLICKABLE BUTTONS -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
                     <!-- Virtual Assistant -->
-                    <button id="skill-Virtual_Assistant" onclick="selectSkill('Virtual Assistant')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Virtual_Assistant" onclick="selectSkill('Virtual Assistant')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Virtual Assistant
                     </button>
                     <!-- Copy Writing -->
-                    <button id="skill-Copy_Writing" onclick="selectSkill('Copy Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Copy_Writing" onclick="selectSkill('Copy Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Copy Writing
                     </button>
                     <!-- Content Writing -->
-                    <button id="skill-Content_Writing" onclick="selectSkill('Content Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Content_Writing" onclick="selectSkill('Content Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Content Writing
                     </button>
                     <!-- Web Development -->
-                    <button id="skill-Web_Development" onclick="selectSkill('Web Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Web_Development" onclick="selectSkill('Web Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Web Development
                     </button>
                     <!-- Flutter Mobile Development -->
-                    <button id="skill-Flutter_Mobile_Development" onclick="selectSkill('Flutter Mobile Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Flutter_Mobile_Development" onclick="selectSkill('Flutter Mobile Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Flutter Mobile Dev.
                     </button>
                     <!-- Social Media Management -->
-                    <button id="skill-Social_Media_Management" onclick="selectSkill('Social Media Management')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Social_Media_Management" onclick="selectSkill('Social Media Management')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Social Media Management
                     </button>
                     <!-- Digital Marketing -->
-                    <button id="skill-Digital_Marketing" onclick="selectSkill('Digital Marketing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Digital_Marketing" onclick="selectSkill('Digital Marketing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Digital Marketing
                     </button>
                     <!-- Data Analysis -->
-                    <button id="skill-Data_Analysis" onclick="selectSkill('Data Analysis')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Data_Analysis" onclick="selectSkill('Data Analysis')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Data Analysis
                     </button>
                     <!-- Video Editing -->
-                    <button id="skill-Video_Editing" onclick="selectSkill('Video Editing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Video_Editing" onclick="selectSkill('Video Editing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Video Editing
                     </button>
                     <!-- Graphic Design -->
-                    <button id="skill-Graphic_Design" onclick="selectSkill('Graphic Design')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
+                    <button id="skill-Graphic_Design" onclick="selectSkill('Graphic Design')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
                         Graphic Design
                     </button>
                 </div>
@@ -330,66 +423,76 @@
             </div>
         </section>
 
-        <!-- 5. Testimonials Section (Updated with real content) -->
+        <!-- 5. Testimonials Section -->
         <section class="py-20 bg-primary-dark/95 text-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
                     Proof of Excellence
                 </h2>
-                <p class="text-lg text-light-grey mb-12 max-w-2xl mx-auto">
+                <p class="text-lg text-light-grey mb-8 max-w-2xl mx-auto">
                     <span class="text-accent-yellow font-bold">200+ trained</span>—Hear how our alumni are building successful careers globally.
                 </p>
 
-                <!-- Testimonial Cards (Updated with real quotes and images) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Testimonial Horizontal Scroller Container -->
+                <!-- The container uses the new testimonial-snap-container class for scroll-snap and scrollbar hiding -->
+                <div class="flex overflow-x-auto space-x-6 pb-4 max-w-6xl mx-auto testimonial-snap-container scroll-smooth">
 
-                    <!-- Testimonial 1: Social Media Management -->
-                    <div class="bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full">
-                        <!-- Image and Name -->
-                        <div class="flex items-center mb-4 border-b pb-4">
-                            <!-- Image URL uses the uploaded filename -->
-                            <img src="uploaded:WhatsApp Image 2025-10-14 at 02.34.11.jpeg-6a685c98-a831-4d4b-9449-d46dc4f86354" alt="Khamieje O. Precious" class="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-primary-blue">
-                            <div>
-                                <p class="font-bold text-lg text-primary-blue">Khamieje O. Precious</p>
-                                <p class="text-xs text-gray-500">Graduate of Social Media Management</p>
-                            </div>
+                    <!-- Testimonial 1: Social Media Management (Khamieje) -->
+                    <!-- Each card uses the new testimonial-card-item class for responsive width and snap alignment -->
+                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
+                        <div class="mb-4 border-b pb-4">
+                            <p class="font-bold text-lg text-primary-blue">Khamieje Dmosnoba Precious</p>
+                            <p class="text-xs text-gray-500">Graduate of Social Media Management</p>
                         </div>
-                        <p class="italic text-base text-gray-700 flex-grow text-left">
-                            "Honestly at first I was skeptical, but I am really glad I decided to trust in it. I learnt so much, knowledge wise and practically. I really hope for more opportunities like this."
+                        <p class="italic text-base text-gray-700 flex-grow">
+                            "Wow!! That is really all I can say. This bootcamp was really a good one... I am really glad I decided to trust in it. I learnt so much, knowledge wise and practically. I really hope for more opportunities like this."
                         </p>
                     </div>
 
-                    <!-- Testimonial 2: Data Analytics -->
-                    <div class="bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full">
-                        <!-- Image and Name -->
-                        <div class="flex items-center mb-4 border-b pb-4">
-                            <!-- Image URL uses the uploaded filename -->
-                            <img src="uploaded:WhatsApp Image 2025-10-14 at 02.34.12.jpeg-d0e5b9d3-b2fc-4551-8ec0-6ed9ad62852e" alt="Olise Sophia Amarachi" class="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-accent-yellow">
-                            <div>
-                                <p class="font-bold text-lg text-primary-blue">Olise Sophia Amarachi</p>
-                                <p class="text-xs text-gray-500">Graduate of Data Analytics</p>
-                            </div>
+                    <!-- Testimonial 2: Data Analytics (Olise) -->
+                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
+                        <div class="mb-4 border-b pb-4">
+                            <p class="font-bold text-lg text-primary-blue">Olise Sophia Amarachi</p>
+                            <p class="text-xs text-gray-500">Graduate of Data Analytics</p>
                         </div>
-                        <p class="italic text-base text-gray-700 flex-grow text-left">
+                        <p class="italic text-base text-gray-700 flex-grow">
                             "My experience at the Data Analytics Bootcamp was rewarding. I mastered Google Sheets, Excel skills, and Power BI. This bootcamp taught me to think like a data analyst—a perfect launchpad for anyone entering the field."
                         </p>
                     </div>
 
-                    <!-- Testimonial 3: Flutter Mobile Development -->
-                    <div class="bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full">
-                        <!-- Image and Name -->
-                        <div class="flex items-center mb-4 border-b pb-4">
-                            <!-- Image URL uses the uploaded filename -->
-                            <img src="uploaded:WhatsApp Image 2025-10-14 at 02.34.12 (1).jpeg-fc9bf2c2-7af9-4599-bd6d-b70c114267df" alt="Zarah Hope" class="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-primary-blue">
-                            <div>
-                                <p class="font-bold text-lg text-primary-blue">Zarah Hope</p>
-                                <p class="text-xs text-gray-500">Graduate of Flutter Mobile Development</p>
-                            </div>
+                    <!-- Testimonial 3: Flutter Mobile Development (Zarah) -->
+                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-cyan text-left transform hover:shadow-2xl transition duration-300">
+                        <div class="mb-4 border-b pb-4">
+                            <p class="font-bold text-lg text-primary-blue">Zarah Hope</p>
+                            <p class="text-xs text-gray-500">Graduate of Flutter Mobile Development</p>
                         </div>
-                        <p class="italic text-base text-gray-700 flex-grow text-left">
-                            "The quality of instruction was exceptional. The tutor's approachable style made complex topics understandable, and I now feel prepared to tackle challenges in the mobile development field."
+                        <p class="italic text-base text-gray-700 flex-grow">
+                            "The quality of instruction was exceptional... The tutor's knowledge and approachable style made complex topics understandable, and I now feel prepared to tackle challenges in the mobile development field."
                         </p>
                     </div>
+                    
+                    <!-- Testimonial 4: Virtual Assistant (Kunle-Efunnuga) -->
+                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
+                        <div class="mb-4 border-b pb-4">
+                            <p class="font-bold text-lg text-primary-blue">Kunle-Efunnuga Ruth Ifeoluwa</p>
+                            <p class="text-xs text-gray-500">Graduate of Virtual Assistant Training</p>
+                        </div>
+                        <p class="italic text-base text-gray-700 flex-grow">
+                            "I recently completed the Virtual Assistant Training bootcamp... The teaching quality was exceptional, with clear guidance and practical examples. I feel well-equipped to advance my career in this dynamic field and highly recommend this bootcamp."
+                        </p>
+                    </div>
+
+                    <!-- Testimonial 5: Graphic Design (Favour Elohor) -->
+                    <div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
+                        <div class="mb-4 border-b pb-4">
+                            <p class="font-bold text-lg text-primary-blue">Favour Elohor</p>
+                            <p class="text-xs text-gray-500">Graduate of Graphic Design</p>
+                        </div>
+                        <p class="italic text-base text-gray-700 flex-grow">
+                            "My experience at the bootcamp was wonderful from the very first day to the last. I truly enjoyed learning alongside my classmates. The effectiveness of the tutor's instruction was remarkable and incredibly helpful."
+                        </p>
+                    </div>
+                    
                 </div>
             </div>
         </section>
@@ -509,6 +612,35 @@
 
     </main>
 
+    <!-- Early Bird Offer Modal -->
+    <div id="earlyBirdModal" style="opacity: 0;" class="hidden fixed inset-0 bg-primary-dark/80 z-50 flex items-center justify-center p-4 modal-transition-container">
+        <div id="earlyBirdModalContent" class="bg-white p-8 rounded-3xl shadow-2xl max-w-lg w-full text-center relative transform modal-transition-content scale-90">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-primary-dark transition duration-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="mb-6">
+                <span class="inline-block bg-accent-yellow text-primary-dark font-extrabold px-3 py-1 rounded-full text-sm uppercase tracking-wider mb-3">Limited Time Offer!</span>
+                <h3 class="text-4xl font-extrabold text-primary-blue mb-2">Unlock Your Digital Career</h3>
+                <p class="text-xl text-primary-dark/80">Join our Bootcamp for an unbeatable price!</p>
+            </div>
+            
+            <div class="bg-light-grey/30 p-4 rounded-xl mb-6">
+                <p class="text-lg font-bold text-gray-700">Today's Price:</p>
+                <!-- USD price displayed here -->
+                <p class="text-6xl font-extrabold text-primary-dark">₦5,000</p>
+                <p class="text-2xl font-semibold text-primary-dark/90 mt-1">or $3 USD</p>
+                <p class="text-sm text-gray-500 line-through mt-2">Standard: ₦8,000 / $5 USD</p>
+            </div>
+
+            <button onclick="closeModal(); scrollToSection('skills');" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02]">
+                Select Your Skill & Claim Discount
+            </button>
+            <p onclick="closeModal()" class="text-sm text-gray-500 mt-4 cursor-pointer hover:text-primary-blue/80 transition duration-200">No thanks, I'll pay the standard price later.</p>
+        </div>
+    </div>
 </body>
 </html>
+
 

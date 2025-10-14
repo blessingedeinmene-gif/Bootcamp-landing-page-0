@@ -15,6 +15,18 @@
             overflow-x: hidden;
             background-color: #f7f9fc; /* Off-white background */
         }
+        /* Custom style for skill buttons to look clickable */
+        .skill-button:hover {
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(11, 16, 222, 0.2); /* Soft shadow on hover */
+        }
+        .skill-button.selected {
+            background-color: #0B10DE; /* Primary Blue */
+            color: white;
+            font-weight: 600;
+            border: 2px solid #FEC611; /* Accent Yellow border */
+            transform: scale(1.05);
+        }
     </style>
     <script>
         tailwind.config = {
@@ -31,6 +43,16 @@
             }
         }
 
+        let selectedSkill = ''; // Global variable to store the chosen skill
+
+        // Mapping of Skill Names to Payment Links (REPLACE THESE PLACEHOLDERS!)
+        const PAYMENT_LINKS = {
+            'Naira5000': 'YOUR_NAIRA_PAYMENT_LINK_5000',
+            'USD3': 'YOUR_USD_PAYMENT_LINK_3',
+            'Naira8000': 'YOUR_NAIRA_PAYMENT_LINK_8000',
+            'USD5': 'YOUR_USD_PAYMENT_LINK_5',
+        };
+
         // Function to handle smooth scrolling for navigation
         function scrollToSection(id) {
             const element = document.getElementById(id);
@@ -38,14 +60,79 @@
                 element.scrollIntoView({ behavior: 'smooth' });
             }
         }
+
+        // Function to select a skill and update the UI
+        function selectSkill(skillName) {
+            selectedSkill = skillName;
+            
+            // 1. Update UI to highlight the selected button
+            document.querySelectorAll('.skill-button').forEach(button => {
+                button.classList.remove('selected');
+                button.classList.remove('bg-primary-blue', 'text-white');
+                button.classList.add('bg-light-grey/20', 'text-primary-dark'); // Reset default style
+            });
+            const button = document.getElementById(`skill-${skillName.replace(/\s/g, '_')}`);
+            if (button) {
+                button.classList.add('selected');
+                button.classList.remove('bg-light-grey/20', 'text-primary-dark');
+            }
+
+            // 2. Update the Pricing Banner
+            const skillDisplay = document.getElementById('selectedSkillDisplay');
+            if (skillDisplay) {
+                skillDisplay.textContent = `Enrolling for: ${skillName}`;
+                skillDisplay.classList.remove('hidden');
+            }
+
+            // 3. Scroll to pricing section
+            scrollToSection('pricing');
+        }
         
-        // Removed handleEnrollment() - will use direct links in HTML
+        // Function to handle payment click and redirect
+        function handlePaymentClick(priceType, currency, skill) {
+            if (!selectedSkill) {
+                 const messageBox = document.getElementById('messageBox');
+                 const messageText = document.getElementById('messageText');
+                 messageText.textContent = `Please select a skill track first!`;
+                 messageBox.classList.remove('hidden');
+                 setTimeout(() => messageBox.classList.add('hidden'), 3000);
+                 scrollToSection('skills');
+                 return;
+            }
+
+            const key = currency + priceType; // e.g., 'Naira5000' or 'USD3'
+            const baseLink = PAYMENT_LINKS[key];
+            
+            if (baseLink.includes('YOUR_')) {
+                const messageBox = document.getElementById('messageBox');
+                const messageText = document.getElementById('messageText');
+                messageText.textContent = `Error: Payment link for ${key} is a placeholder! Please update the code first.`;
+                messageBox.classList.remove('hidden');
+                setTimeout(() => messageBox.classList.add('hidden'), 5000);
+                return;
+            }
+
+            // Clean up the skill name for the URL parameter
+            const skillParam = encodeURIComponent(selectedSkill.replace(/\s/g, '_'));
+
+            // Append the skill parameter to the base payment link
+            const finalUrl = `${baseLink}${baseLink.includes('?') ? '&' : '?'}skill=${skillParam}`;
+
+            // Redirect the user
+            window.open(finalUrl, '_blank');
+        }
+
+        // Initialize by selecting a default skill or ensuring none is selected
+        document.addEventListener('DOMContentLoaded', () => {
+             // Optional: highlight the first skill by default or keep it clear
+             // selectSkill('Virtual Assistant'); 
+        });
 
     </script>
 </head>
 <body class="text-primary-dark">
 
-    <!-- Global Message Box (Not used for enrollment links anymore, but kept for subscription) -->
+    <!-- Global Message Box (Instead of alert()) -->
     <div id="messageBox" class="hidden fixed top-4 right-4 bg-primary-dark text-white p-4 rounded-lg shadow-xl z-50 transition duration-300">
         <p id="messageText" class="font-semibold"></p>
     </div>
@@ -91,9 +178,8 @@
 
                     <!-- CTAs -->
                     <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <!-- Updated to link directly to pricing section -->
-                        <a href="#pricing" class="px-8 py-4 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02] active:scale-100">
-                            🔥 Enroll Now
+                        <a href="#skills" class="px-8 py-4 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02] active:scale-100">
+                            🔥 Choose Your Skill & Enroll
                         </a>
                         <button onclick="scrollToSection('skills')" class="px-8 py-4 bg-transparent border-2 border-accent-yellow text-accent-yellow font-bold text-lg rounded-xl hover:bg-accent-yellow hover:text-primary-dark transition duration-300 transform hover:scale-[1.02] active:scale-100">
                             Explore Skill Tracks
@@ -185,61 +271,61 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
-                        Master an In-Demand Skill
+                        1. Select Your In-Demand Skill
                     </h2 >
                     <p class="text-lg text-gray-600">
-                        Select the path that aligns with your passion and career goals. Each track is designed for maximum real-world impact.
+                        Click on the path that aligns with your passion and career goals.
                     </p>
                 </div>
 
-                <!-- Skill Grid -->
+                <!-- Skill Grid - NOW CLICKABLE BUTTONS -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
                     <!-- Virtual Assistant -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Virtual_Assistant" onclick="selectSkill('Virtual Assistant')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Virtual Assistant
-                    </div>
+                    </button>
                     <!-- Copy Writing -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Copy_Writing" onclick="selectSkill('Copy Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Copy Writing
-                    </div>
+                    </button>
                     <!-- Content Writing -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Content_Writing" onclick="selectSkill('Content Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Content Writing
-                    </div>
+                    </button>
                     <!-- Web Development -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Web_Development" onclick="selectSkill('Web Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Web Development
-                    </div>
+                    </button>
                     <!-- Flutter Mobile Development -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Flutter_Mobile_Development" onclick="selectSkill('Flutter Mobile Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Flutter Mobile Dev.
-                    </div>
+                    </button>
                     <!-- Social Media Management -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Social_Media_Management" onclick="selectSkill('Social Media Management')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Social Media Management
-                    </div>
+                    </button>
                     <!-- Digital Marketing -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Digital_Marketing" onclick="selectSkill('Digital Marketing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Digital Marketing
-                    </div>
+                    </button>
                     <!-- Data Analysis -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Data_Analysis" onclick="selectSkill('Data Analysis')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Data Analysis
-                    </div>
+                    </button>
                     <!-- Video Editing -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Video_Editing" onclick="selectSkill('Video Editing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Video Editing
-                    </div>
+                    </button>
                     <!-- Graphic Design -->
-                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                    <button id="skill-Graphic_Design" onclick="selectSkill('Graphic Design')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center transition duration-200 shadow-md transform hover:scale-[1.03]">
                         Graphic Design
-                    </div>
+                    </button>
                 </div>
 
                 <div class="text-center mt-10">
-                    <button onclick="scrollToSection('pricing')" class="px-6 py-3 bg-accent-yellow text-primary-dark font-bold rounded-full hover:bg-yellow-500 transition duration-300">
-                        Ready to Choose? See Pricing & Enroll
-                    </button>
+                    <p class="text-sm text-gray-500 italic">
+                        After selecting your skill, scroll down to step 2 to choose your price.
+                    </p>
                 </div>
             </div>
         </section>
@@ -313,12 +399,19 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
-                        Invest in Your Future Today
+                        2. Choose Your Investment
                     </h2>
                     <p class="text-lg text-gray-600">
                         Secure your spot now and lock in the best rate for the complete, career-launching program.
                     </p>
                 </div>
+                
+                <!-- Dynamic Skill Display Banner -->
+                <div id="selectedSkillDisplay" class="hidden max-w-2xl mx-auto bg-primary-blue text-white p-4 rounded-xl text-center text-xl font-bold mb-8 shadow-lg transition duration-300 transform scale-100">
+                    <!-- Text will be updated by selectSkill() function -->
+                    Enrolling for: [Skill Name Placeholder]
+                </div>
+
 
                 <div class="flex flex-col lg:flex-row justify-center space-y-8 lg:space-y-0 lg:space-x-8">
                     <!-- Early Bird Offer Card -->
@@ -340,14 +433,14 @@
                             <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Premium Discount Rate</li>
                         </ul>
 
-                        <!-- Payment Gateway CTAs - UPDATED with Placeholder Links -->
+                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION -->
                         <div class="space-y-4">
-                            <a href="YOUR_NAIRA_PAYMENT_LINK_5000" target="_blank" class="block w-full text-center py-3 bg-accent-yellow text-primary-dark font-bold text-lg rounded-xl hover:bg-yellow-500 transition duration-300 shadow-lg transform hover:scale-[1.01]">
+                            <button onclick="handlePaymentClick(5000, 'Naira')" class="w-full py-3 bg-accent-yellow text-primary-dark font-bold text-lg rounded-xl hover:bg-yellow-500 transition duration-300 shadow-lg transform hover:scale-[1.01]">
                                 Pay in Naira (₦5,000)
-                            </a>
-                            <a href="YOUR_USD_PAYMENT_LINK_3" target="_blank" class="block w-full text-center py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-lg transform hover:scale-[1.01]">
+                            </button>
+                            <button onclick="handlePaymentClick(3, 'USD')" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-lg transform hover:scale-[1.01]">
                                 Pay in USD ($3)
-                            </a>
+                            </button>
                         </div>
                     </div>
 
@@ -368,14 +461,14 @@
                             <li class="flex items-center"><span class="text-primary-blue mr-2">✗</span> No Early Bird Discount</li>
                         </ul>
 
-                        <!-- Payment Gateway CTAs - UPDATED with Placeholder Links -->
+                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION -->
                         <div class="space-y-4">
-                            <a href="YOUR_NAIRA_PAYMENT_LINK_8000" target="_blank" class="block w-full text-center py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark/90 transition duration-300 shadow-md">
+                            <button onclick="handlePaymentClick(8000, 'Naira')" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark/90 transition duration-300 shadow-md">
                                 Pay in Naira (₦8,000)
-                            </a>
-                            <a href="YOUR_USD_PAYMENT_LINK_5" target="_blank" class="block w-full text-center py-3 bg-primary-dark text-white font-bold text-lg rounded-xl hover:bg-primary-blue transition duration-300 shadow-md">
+                            </button>
+                            <button onclick="handlePaymentClick(5, 'USD')" class="w-full py-3 bg-primary-dark text-white font-bold text-lg rounded-xl hover:bg-primary-blue transition duration-300 shadow-md">
                                 Pay in USD ($5)
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -418,3 +511,4 @@
 
 </body>
 </html>
+

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Tech Solutions & Trainings - Digital Career Bootcamp</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Poppins Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles and configuration */
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            overflow-x: hidden;
+            background-color: #f7f9fc; /* Off-white background */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#0F2240',
+                        'primary-blue': '#0B10DE',
+                        'accent-yellow': '#FEC611',
+                        'accent-cyan': '#36CEFF',
+                        'light-grey': '#C2C4EB',
+                    },
+                }
+            }
+        }
+
+        // Function to handle smooth scrolling for navigation
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Removed handleEnrollment() - will use direct links in HTML
+
+    </script>
+</head>
+<body class="text-primary-dark">
+
+    <!-- Global Message Box (Not used for enrollment links anymore, but kept for subscription) -->
+    <div id="messageBox" class="hidden fixed top-4 right-4 bg-primary-dark text-white p-4 rounded-lg shadow-xl z-50 transition duration-300">
+        <p id="messageText" class="font-semibold"></p>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="bg-white sticky top-0 z-40 shadow-md">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo and Company Name (Text added back) -->
+            <a href="#" class="flex items-center text-primary-dark space-x-2">
+                <!-- Company Logo Image -->
+                <img src="uploaded:WhatsApp Image 2025-10-14 at 01.21.03.jpeg-fa2cd600-a7a8-41e8-85b6-30d37998b228" alt="Company Logo" class="h-8 object-contain">
+                <!-- Added Company Name Text, hidden on smallest screens for responsiveness -->
+                <span class="text-xs sm:text-base font-bold hidden sm:block">SMART TECH SOLUTIONS AND TRAININGS</span>
+            </a>
+            <!-- CTA Button (Visible on Desktop/Tablet) -->
+            <div class="hidden md:flex space-x-4">
+                <button onclick="scrollToSection('pricing')" class="px-6 py-2 bg-primary-blue text-white font-semibold rounded-full hover:bg-primary-dark transition duration-300 shadow-lg hover:shadow-xl">
+                    Enroll Now
+                </button>
+            </div>
+            <!-- Mobile Menu Placeholder -->
+            <div class="md:hidden">
+                <button class="text-primary-dark focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section id="hero" class="bg-primary-dark text-white pt-16 pb-24 md:pt-24 md:pb-32 relative overflow-hidden">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <!-- Slogan -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 tracking-tight">
+                        <span class="text-accent-yellow">Choose your path.</span> Master a skill. <span class="text-primary-blue">Build your digital career.</span>
+                    </h1>
+                    <!-- Introductory Paragraph -->
+                    <p class="text-xl text-light-grey mb-8 max-w-2xl mx-auto font-light">
+                        Join our expert-led Bootcamp and master one in-demand digital skill that prepares you for real opportunities, global clients, and lasting success.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <!-- Updated to link directly to pricing section -->
+                        <a href="#pricing" class="px-8 py-4 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02] active:scale-100">
+                            🔥 Enroll Now
+                        </a>
+                        <button onclick="scrollToSection('skills')" class="px-8 py-4 bg-transparent border-2 border-accent-yellow text-accent-yellow font-bold text-lg rounded-xl hover:bg-accent-yellow hover:text-primary-dark transition duration-300 transform hover:scale-[1.02] active:scale-100">
+                            Explore Skill Tracks
+                        </button>
+                    </div>
+
+                    <!-- Stats (REMOVED) -->
+                    
+                </div>
+            </div>
+            <!-- Decorative wave/swoosh (Visual Element Placeholder) -->
+            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-f7f9fc to-transparent"></div>
+        </section>
+
+        <!-- 2. About/Mission Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-primary-blue mb-3">Our Mission</h2>
+                    <p class="text-2xl md:text-3xl font-bold mb-6 text-primary-dark">
+                        Empowering You for Global Digital Success.
+                    </p>
+                    <!-- Company name corrected -->
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        At Smart Tech Solutions and Trainings, we empower individuals to launch or advance their digital careers through expert-led training in today’s most in-demand skills. Our approach combines technical mastery with professional excellence, helping learners gain practical experience, global relevance, and the confidence to thrive in the modern digital economy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Top 5 Benefits / Features -->
+        <section class="py-20 bg-light-grey/30">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12 text-primary-dark">
+                    What Makes Our Bootcamp Stand Out?
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
+                        <div class="text-primary-blue mb-4">
+                            <!-- Icon: Graduation Cap -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.656-6.479L12 14z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Expert-Led Training</h3>
+                        <p class="text-sm text-gray-600">Learn directly from seasoned industry professionals with real-world experience.</p>
+                    </div>
+                    <!-- Feature Card 2 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
+                        <div class="text-accent-yellow mb-4">
+                            <!-- Icon: Toggles/Settings -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Flexible Skill Tracks</h3>
+                        <p class="text-sm text-gray-600">Choose from 10 high-demand digital skills tailored to your interests and goals.</p>
+                    </div>
+                    <!-- Feature Card 3 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-cyan">
+                        <div class="text-accent-cyan mb-4">
+                            <!-- Icon: Laptop with Code -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 17h18M5 17h14c.276 0 .5-.224.5-.5V14.5a.5.5 0 00-.5-.5H5a.5.5 0 00-.5.5v2c0 .276.224.5.5.5zM7 9h10m-10 4h10m-10-8h10M5 17.5l2-8 3-4 4 4 3 8"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Hands-On Learning</h3>
+                        <p class="text-sm text-gray-600">Build real projects and portfolios that showcase your skills to global employers.</p>
+                    </div>
+                    <!-- Feature Card 4 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
+                        <div class="text-primary-blue mb-4">
+                            <!-- Icon: Mentorship/Guidance -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.565 23.565 0 0112 15c-3.18 0-6.233-.62-9-1.745M16 4h4m-2 2v-4m-6 10H4m16 4H4m10-4H4m10 4l6 6m-6-6l6-6"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Career Mentorship</h3>
+                        <p class="text-sm text-gray-600">Receive guidance to position yourself for remote work and freelance opportunities.</p>
+                    </div>
+                    <!-- Feature Card 5 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
+                        <div class="text-accent-yellow mb-4">
+                            <!-- Icon: Integrity/Values -->
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Values-Driven</h3>
+                        <p class="text-sm text-gray-600">Grow in discipline, reliability, and integrity—qualities that set you apart.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Skill Tracks Section -->
+        <section id="skills" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
+                        Master an In-Demand Skill
+                    </h2 >
+                    <p class="text-lg text-gray-600">
+                        Select the path that aligns with your passion and career goals. Each track is designed for maximum real-world impact.
+                    </p>
+                </div>
+
+                <!-- Skill Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
+                    <!-- Virtual Assistant -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Virtual Assistant
+                    </div>
+                    <!-- Copy Writing -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Copy Writing
+                    </div>
+                    <!-- Content Writing -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Content Writing
+                    </div>
+                    <!-- Web Development -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Web Development
+                    </div>
+                    <!-- Flutter Mobile Development -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Flutter Mobile Dev.
+                    </div>
+                    <!-- Social Media Management -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Social Media Management
+                    </div>
+                    <!-- Digital Marketing -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Digital Marketing
+                    </div>
+                    <!-- Data Analysis -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Data Analysis
+                    </div>
+                    <!-- Video Editing -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Video Editing
+                    </div>
+                    <!-- Graphic Design -->
+                    <div class="flex items-center justify-center p-4 bg-light-grey/20 rounded-lg font-medium text-sm text-center hover:bg-primary-blue hover:text-white transition duration-200 shadow-md">
+                        Graphic Design
+                    </div>
+                </div>
+
+                <div class="text-center mt-10">
+                    <button onclick="scrollToSection('pricing')" class="px-6 py-3 bg-accent-yellow text-primary-dark font-bold rounded-full hover:bg-yellow-500 transition duration-300">
+                        Ready to Choose? See Pricing & Enroll
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Testimonials Section (Updated with real content) -->
+        <section class="py-20 bg-primary-dark/95 text-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+                    Proof of Excellence
+                </h2>
+                <p class="text-lg text-light-grey mb-12 max-w-2xl mx-auto">
+                    <span class="text-accent-yellow font-bold">200+ trained</span>—Hear how our alumni are building successful careers globally.
+                </p>
+
+                <!-- Testimonial Cards (Updated with real quotes and images) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+                    <!-- Testimonial 1: Social Media Management -->
+                    <div class="bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full">
+                        <!-- Image and Name -->
+                        <div class="flex items-center mb-4 border-b pb-4">
+                            <!-- Image URL uses the uploaded filename -->
+                            <img src="uploaded:WhatsApp Image 2025-10-14 at 02.34.11.jpeg-6a685c98-a831-4d4b-9449-d46dc4f86354" alt="Khamieje O. Precious" class="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-primary-blue">
+                            <div>
+                                <p class="font-bold text-lg text-primary-blue">Khamieje O. Precious</p>
+                                <p class="text-xs text-gray-500">Graduate of Social Media Management</p>
+                            </div>
+                        </div>
+                        <p class="italic text-base text-gray-700 flex-grow text-left">
+                            "Honestly at first I was skeptical, but I am really glad I decided to trust in it. I learnt so much, knowledge wise and practically. I really hope for more opportunities like this."
+                        </p>
+                    </div>
+
+                    <!-- Testimonial 2: Data Analytics -->
+                    <div class="bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full">
+                        <!-- Image and Name -->
+                        <div class="flex items-center mb-4 border-b pb-4">
+                            <!-- Image URL uses the uploaded filename -->
+                            <img src="uploaded:WhatsApp Image 2025-10-14 at 02.34.12.jpeg-d0e5b9d3-b2fc-4551-8ec0-6ed9ad62852e" alt="Olise Sophia Amarachi" class="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-accent-yellow">
+                            <div>
+                                <p class="font-bold text-lg text-primary-blue">Olise Sophia Amarachi</p>
+                                <p class="text-xs text-gray-500">Graduate of Data Analytics</p>
+                            </div>
+                        </div>
+                        <p class="italic text-base text-gray-700 flex-grow text-left">
+                            "My experience at the Data Analytics Bootcamp was rewarding. I mastered Google Sheets, Excel skills, and Power BI. This bootcamp taught me to think like a data analyst—a perfect launchpad for anyone entering the field."
+                        </p>
+                    </div>
+
+                    <!-- Testimonial 3: Flutter Mobile Development -->
+                    <div class="bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full">
+                        <!-- Image and Name -->
+                        <div class="flex items-center mb-4 border-b pb-4">
+                            <!-- Image URL uses the uploaded filename -->
+                            <img src="uploaded:WhatsApp Image 2025-10-14 at 02.34.12 (1).jpeg-fc9bf2c2-7af9-4599-bd6d-b70c114267df" alt="Zarah Hope" class="w-12 h-12 rounded-full object-cover mr-4 ring-2 ring-primary-blue">
+                            <div>
+                                <p class="font-bold text-lg text-primary-blue">Zarah Hope</p>
+                                <p class="text-xs text-gray-500">Graduate of Flutter Mobile Development</p>
+                            </div>
+                        </div>
+                        <p class="italic text-base text-gray-700 flex-grow text-left">
+                            "The quality of instruction was exceptional. The tutor's approachable style made complex topics understandable, and I now feel prepared to tackle challenges in the mobile development field."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Pricing Section -->
+        <section id="pricing" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
+                        Invest in Your Future Today
+                    </h2>
+                    <p class="text-lg text-gray-600">
+                        Secure your spot now and lock in the best rate for the complete, career-launching program.
+                    </p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row justify-center space-y-8 lg:space-y-0 lg:space-x-8">
+                    <!-- Early Bird Offer Card -->
+                    <div class="flex-1 max-w-md mx-auto bg-primary-dark text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden transform scale-105 border-4 border-accent-yellow">
+                        <div class="absolute top-0 right-0 bg-accent-yellow text-primary-dark px-4 py-1 rounded-bl-lg font-bold text-sm">BEST VALUE</div>
+                        <h3 class="text-3xl font-extrabold text-accent-yellow mb-2">Early Bird Special</h3>
+                        <p class="text-light-grey text-lg mb-6">Limited spots available at this price!</p>
+
+                        <div class="text-4xl font-extrabold flex items-baseline justify-center mb-1">
+                            <span class="text-xl line-through text-red-400 mr-4">₦8,000</span>
+                            <span class="text-5xl">₦5,000</span>
+                        </div>
+                        <p class="text-light-grey text-lg mb-6 text-center">or <span class="text-accent-cyan font-bold text-3xl">$3 USD</span></p>
+
+                        <ul class="space-y-3 text-sm text-light-grey mb-8">
+                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Full Bootcamp Access (1 Skill Track)</li>
+                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Career-Focused Mentorship</li>
+                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Hands-on Project Portfolio Building</li>
+                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Premium Discount Rate</li>
+                        </ul>
+
+                        <!-- Payment Gateway CTAs - UPDATED with Placeholder Links -->
+                        <div class="space-y-4">
+                            <a href="YOUR_NAIRA_PAYMENT_LINK_5000" target="_blank" class="block w-full text-center py-3 bg-accent-yellow text-primary-dark font-bold text-lg rounded-xl hover:bg-yellow-500 transition duration-300 shadow-lg transform hover:scale-[1.01]">
+                                Pay in Naira (₦5,000)
+                            </a>
+                            <a href="YOUR_USD_PAYMENT_LINK_3" target="_blank" class="block w-full text-center py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-lg transform hover:scale-[1.01]">
+                                Pay in USD ($3)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Late Bird Offer Card -->
+                    <div class="flex-1 max-w-md mx-auto bg-white p-8 rounded-3xl shadow-lg border-2 border-light-grey/50">
+                        <h3 class="text-3xl font-extrabold text-primary-dark mb-2">Standard Enrollment</h3>
+                        <p class="text-gray-600 text-lg mb-6">Price after the Early Bird window closes.</p>
+
+                        <div class="text-5xl font-extrabold text-primary-blue flex items-baseline justify-center mb-1">
+                            ₦8,000
+                        </div>
+                        <p class="text-gray-600 text-lg mb-6 text-center">or <span class="font-bold text-3xl">$5 USD</span></p>
+
+                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
+                            <li class="flex items-center"><span class="text-primary-blue mr-2">✓</span> Full Bootcamp Access (1 Skill Track)</li>
+                            <li class="flex items-center"><span class="text-primary-blue mr-2">✓</span> Career-Focused Mentorship</li>
+                            <li class="flex items-center"><span class="text-primary-blue mr-2">✓</span> Hands-on Project Portfolio Building</li>
+                            <li class="flex items-center"><span class="text-primary-blue mr-2">✗</span> No Early Bird Discount</li>
+                        </ul>
+
+                        <!-- Payment Gateway CTAs - UPDATED with Placeholder Links -->
+                        <div class="space-y-4">
+                            <a href="YOUR_NAIRA_PAYMENT_LINK_8000" target="_blank" class="block w-full text-center py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark/90 transition duration-300 shadow-md">
+                                Pay in Naira (₦8,000)
+                            </a>
+                            <a href="YOUR_USD_PAYMENT_LINK_5" target="_blank" class="block w-full text-center py-3 bg-primary-dark text-white font-bold text-lg rounded-xl hover:bg-primary-blue transition duration-300 shadow-md">
+                                Pay in USD ($5)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Email Capture / Footer -->
+        <footer class="bg-primary-dark py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl font-extrabold text-accent-cyan mb-3">
+                        Don't Miss Out on Your Digital Future.
+                    </h2>
+                    <p class="text-light-grey text-lg mb-8">
+                        Join our mailing list for updates, free resources, and early access notifications.
+                    </p>
+
+                    <!-- Email Capture Form -->
+                    <form onsubmit="event.preventDefault(); document.getElementById('messageText').textContent='Thank you for subscribing!'; document.getElementById('messageBox').classList.remove('hidden'); setTimeout(() => document.getElementById('messageBox').classList.add('hidden'), 3000);" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <input type="email" placeholder="Enter your email address (SFProDisplay style input)" required class="w-full sm:flex-1 p-4 rounded-xl text-primary-dark focus:outline-none focus:ring-2 focus:ring-accent-yellow font-['system-ui',_sans-serif]">
+                        <button type="submit" class="px-8 py-4 bg-accent-yellow text-primary-dark font-bold rounded-xl hover:bg-yellow-500 transition duration-300 shadow-md">
+                            Subscribe
+                        </button>
+                    </form>
+
+                    <div class="mt-12 border-t border-light-grey/30 pt-8">
+                        <p class="text-sm text-light-grey">
+                            &copy; 2025 Smart Tech Solutions and Trainings. All rights reserved.
+                        </p>
+                        <!-- Final Motto/Slogan -->
+                        <p class="text-xs mt-2 text-light-grey/70">
+                            Excellent solutions and trainings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>

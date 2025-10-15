@@ -3,609 +3,976 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Tech Solutions & Trainings - Digital Career Bootcamp</title>
-    <!-- Load Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Poppins Font from Google Fonts --><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* Custom styles and configuration */
-        body {
-            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            overflow-x: hidden;
-            background-color: #f7f9fc; /* Off-white background */
-        }
-        /* Custom style for skill buttons to look clickable */
-        .skill-button {
-            /* Ensure all properties we want to transition are covered */
-            transition: all 0.2s ease-in-out; 
-        }
-
-        .skill-button:hover {
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(11, 16, 222, 0.2); /* Soft shadow on hover */
-        }
-        
-        /* KEYFRAME: Pop effect on selection */
-        @keyframes skill-pop {
-            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(11, 16, 222, 0.2); }
-            50% { transform: scale(1.08); box-shadow: 0 6px 20px rgba(254, 198, 17, 0.5); }
-            100% { transform: scale(1.05); box-shadow: 0 4px 15px rgba(254, 198, 17, 0.3); }
-        }
-
-        .skill-button.selected {
-            background-color: #0B10DE; /* Primary Blue */
-            color: white;
-            font-weight: 600;
-            border: 2px solid #FEC611; /* Accent Yellow border */
-            transform: scale(1.05);
-            /* Apply the new pop animation for dynamic feedback */
-            animation: skill-pop 0.3s ease-out forwards;
-        }
-
-        /* CSS for the page load fade-in effect */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        /* Custom utility for modal backdrop transition */
-        .modal-transition-container {
-            transition: opacity 0.3s ease-out;
-        }
-        .modal-transition-content {
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease-out;
-        }
-
-        /* --- TESTIMONIAL SNAP AND SCROLLBAR HIDING --- */
-        .testimonial-snap-container {
-            scroll-snap-type: x mandatory; /* The core snapping behavior */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-            padding-left: 1.5rem; /* Match the px-6 padding of the container */
-            padding-right: 1.5rem; /* Match the px-6 padding of the container */
-        }
-        
-        .testimonial-snap-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-
-        .testimonial-card-item {
-            scroll-snap-align: start; /* Snap each card to the start of the scroll container */
-            margin-right: 1.5rem; /* Consistent spacing between cards */
-        }
-
-        /* Responsive Widths for Cards within the Snap Container */
-        .testimonial-card-item {
-            width: calc(100vw - 3rem); /* Full viewport width minus container padding (1.5rem + 1.5rem) */
-            flex-shrink: 0;
-            min-height: 220px; /* Ensure a minimum height for consistency */
-        }
-
-        @media (min-width: 640px) { /* sm breakpoint */
-            .testimonial-card-item {
-                width: 400px; /* Fixed width on tablet/desktop for better control */
-            }
-        }
-
-        /* Placeholder styles for when the image fails to load */
-        .image-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ccc;
-            color: #444;
-            font-size: 1.25rem;
-            font-weight: 600;
-            text-align: center;
-            border: 2px dashed #0B10DE;
-            min-height: 300px;
-        }
-        
-    </style>
+    <title>SMARTTECH Landing Page with Firestore & Admin Export</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Poppins Font Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Configure Tailwind for new colors and Poppins font -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'primary-dark': '#0F2240',
-                        'primary-blue': '#0B10DE',
-                        'accent-yellow': '#FEC611',
-                        'accent-cyan': '#36CEFF',
-                        'light-grey': '#C2C4EB',
+                        // New Palette Definitions
+                        'primary-bg': '#0F2240',      // Dark Navy - Background
+                        'primary-cta': '#0B10DE',     // Electric Blue - Primary Action
+                        'accent-gold': '#FEC611',     // Bright Gold/Yellow - Urgency/Accent 1
+                        'accent-cyan': '#36CEFF',     // Light Cyan/Blue - Secondary Accent 2
+                        'light-text': '#C2C4EB',      // Light Lavender/Periwinkle - Main Text Color
+                        
+                        // Retaining a dark card color for depth against primary-bg
+                        'dark-card': '#1C243B', 
                     },
+                    fontFamily: {
+                        // Poppins as the primary font, with Sfprodisplay fallback
+                        sans: ['Poppins', 'Sfprodisplay', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
+                        // Updated glow colors to match the new palette
+                        'glow-blue': '0 0 20px rgba(11, 16, 222, 0.8)', // Primary CTA glow
+                        'glow-gold': '0 0 10px rgba(254, 198, 17, 1)',   // Accent Gold glow
+                        'glow-cyan': '0 0 15px rgba(54, 206, 255, 0.9)', // New Cyan Glow for chat
+                        'popup-glow': '0 0 40px rgba(254, 198, 17, 0.8)', // Extra strong glow for modal
+                    }
                 }
             }
         }
-
-        let selectedSkill = ''; // Global variable to store the chosen skill
-
-        // Mapping of Skill Names to Payment Links
-        const PAYMENT_LINKS = {
-            // UPDATED: ₦5,000 Early Bird Link
-            'Naira5000': 'https://paystack.shop/pay/smarttechst',
-            // UPDATED: ₦8,000 Standard Enrollment Link
-            'Naira8000': 'https://paystack.shop/pay/smartt',
-            // Remaining links are placeholders and should be updated by the user
-            'USD3': 'YOUR_USD_PAYMENT_LINK_3',
-            'USD5': 'YOUR_USD_PAYMENT_LINK_5',
-        };
-
-        // Function to handle smooth scrolling for navigation
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+    </script>
+    
+    <style>
+        /* Custom styles for professional background texture and hero section */
+        body {
+            background-color: #0F2240; /* primary-bg */
+            color: #C2C4EB; /* light-text */
+            font-family: 'Poppins', 'Sfprodisplay', sans-serif;
+            transition: background-color 0.3s;
+        }
+        .hero-section {
+            /* Abstract geometric background pattern for a tech vibe */
+            background-image: radial-gradient(at 0% 0%, #1C243B 0px, transparent 50%), 
+                              radial-gradient(at 100% 100%, #0F2240 0px, transparent 50%);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
         }
 
-        // Function to select a skill and update the UI
-        function selectSkill(skillName) {
-            selectedSkill = skillName;
-            
-            // 1. Update UI to highlight the selected button
-            document.querySelectorAll('.skill-button').forEach(button => {
-                // Clear the 'selected' class and thus reset the pop animation
-                button.classList.remove('selected');
-                button.classList.remove('bg-primary-blue', 'text-white');
-                button.classList.add('bg-light-grey/20', 'text-primary-dark'); // Reset default style
-            });
-            const button = document.getElementById(`skill-${skillName.replace(/\s/g, '_')}`);
-            if (button) {
-                // Re-add the 'selected' class which triggers the CSS animation
-                button.classList.add('selected');
-                button.classList.remove('bg-light-grey/20', 'text-primary-dark');
-            }
+        .cta-button {
+            transition: all 0.3s;
+        }
 
-            // 2. Update the Pricing Banner
-            const skillDisplay = document.getElementById('selectedSkillDisplay');
-            if (skillDisplay) {
-                skillDisplay.textContent = `Enrolling for: ${skillName}`;
-                skillDisplay.classList.remove('hidden');
-            }
-
-            // 3. Scroll to pricing section
-            scrollToSection('pricing');
+        .cta-button:hover {
+            /* Use primary-cta color for glow */
+            box-shadow: 0 0 20px rgba(11, 16, 222, 0.8), 0 0 5px rgba(11, 16, 222, 1); 
+            transform: translateY(-2px);
+            opacity: 0.95;
         }
         
-        // Function to handle payment click and redirect
-        function handlePaymentClick(priceType, currency) {
-            if (!selectedSkill) {
-                 const messageBox = document.getElementById('messageBox');
-                 const messageText = document.getElementById('messageText');
-                 messageText.textContent = `Please select a skill track first!`;
-                 messageBox.classList.remove('hidden');
-                 // Only hide the message box, don't use alert() or confirm()
-                 setTimeout(() => messageBox.classList.add('hidden'), 3000); 
-                 scrollToSection('skills');
-                 return;
-            }
-
-            const key = currency + priceType; // e.g., 'Naira5000' or 'USD3'
-            const baseLink = PAYMENT_LINKS[key];
-            
-            if (baseLink.includes('YOUR_')) {
-                const messageBox = document.getElementById('messageBox');
-                const messageText = document.getElementById('messageText');
-                messageText.textContent = `Error: Payment link for ${key} is a placeholder! Please update the code first.`;
-                messageBox.classList.remove('hidden');
-                setTimeout(() => messageBox.classList.add('hidden'), 5000);
-                return;
-            }
-
-            // The new link structure doesn't seem to support URL params for skill, so we use the base link directly
-            const finalUrl = baseLink; 
-
-            // Redirect the user
-            window.open(finalUrl, '_blank');
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border-color: #0B10DE; /* primary-cta border on hover */
         }
 
-        // --- Modal Logic ---
-
-        function showModal() {
-            const modal = document.getElementById('earlyBirdModal');
-            const modalContent = document.getElementById('earlyBirdModalContent');
-
-            // Show the modal container (backdrop)
-            modal.classList.remove('hidden');
-            
-            // Start transition: opacity and scale
-            setTimeout(() => {
-                modal.style.opacity = '1';
-                modalContent.classList.remove('scale-90');
-                modalContent.classList.add('scale-100');
-            }, 10);
+        /* Fixed floating button style */
+        .fixed-chat-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 90; /* Below message box, above content */
+        }
+        
+        .fixed-chat-button:hover {
+            box-shadow: 0 0 20px rgba(54, 206, 255, 1);
+            transform: scale(1.05);
+        }
+        
+        /* Ensure the export button handles the disabled state visually */
+        .export-button:disabled {
+            background-color: #3f4553;
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
         }
 
-        function closeModal() {
-            const modal = document.getElementById('earlyBirdModal');
-            const modalContent = document.getElementById('earlyBirdModalContent');
-
-            // Start fade out and scale down transition
-            modal.style.opacity = '0';
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-90');
-
-            // Hide the modal container after transition finishes
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 500); // 500ms matches the transition duration
+        /* Testimonial Marquee Styles */
+        .testimonial-container {
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
         }
 
-        // Initialize by showing the modal
-        document.addEventListener('DOMContentLoaded', () => {
-             // Trigger the pop-up modal after 2 seconds
-             setTimeout(showModal, 2000);
-        });
+        .testimonial-track {
+            display: flex;
+            width: fit-content;
+            animation: marquee 30s linear infinite;
+            padding-bottom: 1rem; /* For shadow */
+        }
+        
+        .testimonial-track:hover {
+            animation-play-state: paused;
+        }
 
-        // Function to handle image loading error
-        function onImageError(imgElement) {
-            // Replace the img tag with a styled placeholder div
-            const parent = imgElement.parentElement;
-            if (parent) {
-                const placeholder = document.createElement('div');
-                placeholder.className = 'image-placeholder rounded-3xl shadow-2xl';
-                placeholder.textContent = 'Image Asset Failed to Load (Try refreshing the preview)';
-                parent.replaceChild(placeholder, imgElement);
+        .testimonial-card {
+            flex: 0 0 auto;
+            width: 320px; /* Fixed width for card */
+            margin-right: 2rem;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); } /* Move half the length of the track */
+        }
+        
+        @media (max-width: 768px) {
+            .testimonial-card {
+                width: 280px;
             }
         }
-    </script>
+        
+        /* POP-UP MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #1C243B; /* dark-card */
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            border-radius: 1rem;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+        /* End POP-UP MODAL STYLES */
+
+    </style>
 </head>
-<body class="text-primary-dark">
+<body>
 
-    <!-- Global Message Box (Instead of alert()) --><div id="messageBox" class="hidden fixed top-4 right-4 bg-primary-dark text-white p-4 rounded-lg shadow-xl z-50 transition duration-300">
-        <p id="messageText" class="font-semibold"></p>
+    <!-- Message Box for Form Feedback (Replaces alert()) -->
+    <div id="message-box" class="fixed top-5 right-5 p-4 rounded-xl shadow-lg text-white font-semibold hidden z-[100] transition-all duration-300 transform">
+        <div class="flex items-center justify-between">
+            <span id="message-text"></span>
+            <button onclick="hideMessage()" class="ml-4 text-white/80 hover:text-white">&times;</button>
+        </div>
     </div>
 
-    <!-- Navigation Bar --><header class="bg-white sticky top-0 z-40 shadow-md">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo and Company Name (Text is the main logo) --><a href="#" class="flex items-center text-primary-dark">
-                <span class="text-sm sm:text-lg font-extrabold tracking-tight text-primary-dark">SMART TECH SOLUTIONS AND TRAININGS</span>
+    <div class="min-h-screen">
+        <!-- 1ST: Header -->
+        <header class="max-w-7xl mx-auto px-4 py-4 md:py-6 flex justify-between items-center border-b border-light-text/20 sticky top-0 z-50 bg-primary-bg/95 backdrop-blur-sm">
+            <h1 class="text-xl md:text-2xl font-extrabold text-white">
+                SMART TECH Solutions <span class="text-accent-gold">&</span> Trainings
+            </h1>
+            <a href="#final-enrollment" class="bg-primary-cta text-white font-bold py-2 px-6 rounded-xl shadow-lg shadow-primary-cta/30 hover:opacity-90 transition duration-300 transform hover:scale-[1.03]">
+                Register Now
             </a>
-            <!-- CTA Button (Visible on Desktop/Tablet) --><div class="hidden md:flex space-x-4">
-                <button onclick="scrollToSection('pricing')" class="px-6 py-2 bg-primary-blue text-white font-semibold rounded-full hover:bg-primary-dark transition duration-300 shadow-lg hover:shadow-xl">
-                    Enroll Now
-                </button>
-            </div>
-            <!-- Mobile Menu Placeholder --><div class="md:hidden">
-                <button class="text-primary-dark focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </nav>
-    </header>
+        </header>
 
-    <main class="fade-in">
-        <!-- 1. Hero Section --><section id="hero" class="bg-primary-dark text-white pt-16 pb-24 md:pt-24 md:pb-32 relative overflow-hidden">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="max-w-4xl mx-auto text-center">
-                    <!-- Slogan --><h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 tracking-tight">
-                        <span class="text-accent-yellow">Choose your path.</span> Master a skill. <span class="text-primary-blue">Build your digital career.</span>
-                    </h1>
-                    <!-- Introductory Paragraph --><p class="text-xl text-light-grey mb-8 max-w-2xl mx-auto font-light">
-                        Join our expert-led Bootcamp and master one in-demand digital skill that prepares you for real opportunities, global clients, and lasting success.
-                    </p>
-
-                    <!-- CTAs --><div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="#skills" class="px-8 py-4 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02] active:scale-100">
-                            Choose Your Skill & Enroll
-                        </a>
-                        <button onclick="scrollToSection('skills')" class="px-8 py-4 bg-transparent border-2 border-accent-yellow text-accent-yellow font-bold text-lg rounded-xl hover:bg-accent-yellow hover:text-primary-dark transition duration-300 transform hover:scale-[1.02] active:scale-100">
-                            Explore Skill Tracks
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Decorative wave/swoosh --><div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-f7f9fc to-transparent"></div>
-        </section>
-
-
-        <!-- 2. About/Mission Section --><section class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-primary-blue mb-3">Our Mission</h2>
-                    <p class="text-2xl md:text-3xl font-bold mb-6 text-primary-dark">
-                        Empowering You for Global Digital Success.
-                    </p>
-                    <!-- Company name corrected --><p class="text-lg text-gray-600 leading-relaxed">
-                        At Smart Tech Solutions and Trainings, we empower individuals to launch or advance their digital careers through expert-led training in today’s most in-demand skills. Our approach combines technical mastery with professional excellence, helping learners gain practical experience, global relevance, and the confidence to thrive in the modern digital economy.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Top 5 Benefits / Features --><section class="py-20 bg-light-grey/30">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12 text-primary-dark">
-                    What Makes Our Bootcamp Stand Out?
+        <!-- 1ST: Hero Section (Attention & Urgency) -->
+        <section class="hero-section max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
+            <div class="w-full">
+                <p class="text-accent-gold uppercase font-semibold text-sm mb-3 tracking-widest">SMARTTECH DIGITAL SKILLS BOOTCAMP COHORT 2.0</p>
+                
+                <h2 class="text-4xl md:text-7xl font-extrabold text-white mb-6 leading-tight max-w-5xl mx-auto">
+                    Transform Your Future: <span class="text-primary-cta block md:inline">Master A Digital Skill</span> in Just 5 Weeks.
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                    <!-- Feature Card 1 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
-                        <div class="text-primary-blue mb-4">
-                            <!-- Icon: Graduation Cap --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.656-6.479L12 14z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Expert-Led Training</h3>
-                        <p class="text-sm text-gray-600">Learn directly from seasoned industry professionals with real-world experience.</p>
-                    </div>
-                    <!-- Feature Card 2 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
-                        <div class="text-accent-yellow mb-4">
-                            <!-- Icon: Toggles/Settings --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Flexible Skill Tracks</h3>
-                        <p class="text-sm text-gray-600">Choose from 10 high-demand digital skills tailored to your interests and goals.</p>
-                    </div>
-                    <!-- Feature Card 3 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-cyan">
-                        <div class="text-accent-cyan mb-4">
-                            <!-- Icon: Laptop with Code --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 17h18M5 17h14c.276 0 .5-.224.5-.5V14.5a.5.5 0 00-.5-.5H5a.5.5 0 00-.5.5v2c0 .276.224.5.5.5zM7 9h10m-10 4h10m-10-8h10M5 17.5l2-8 3-4 4 4 3 8"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Hands-On Learning</h3>
-                        <p class="text-sm text-gray-600">Build real projects and portfolios that showcase your skills to global employers.</p>
-                    </div>
-                    <!-- Feature Card 4 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-primary-blue">
-                        <div class="text-primary-blue mb-4">
-                            <!-- Icon: Mentorship/Guidance --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.565 23.565 0 0112 15c-3.18 0-6.233-.62-9-1.745M16 4h4m-2 2v-4m-6 10H4m16 4H4m10-4H4m10 4l6 6m-6-6l6-6"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Career Mentorship</h3>
-                        <p class="text-sm text-gray-600">Receive guidance to position yourself for remote work and freelance opportunities.</p>
-                    </div>
-                    <!-- Feature Card 5 --><div class="bg-white p-6 rounded-2xl shadow-lg transform hover:shadow-xl hover:-translate-y-1 transition duration-300 border-t-4 border-accent-yellow">
-                        <div class="text-accent-yellow mb-4">
-                            <!-- Icon: Integrity/Values --><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Values-Driven</h3>
-                        <p class="text-sm text-gray-600">Grow in discipline, reliability, and integrity—qualities that set you apart.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Skill Tracks Section --><section id="skills" class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
-                        1. Select Your In-Demand Skill
-                    </h2 >
-                    <p class="text-lg text-gray-600">
-                        Click on the path that aligns with your passion and career goals.
-                    </p>
-                </div>
-
-                <!-- Skill Grid - NOW CLICKABLE BUTTONS --><div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-6xl mx-auto">
-                    <!-- Virtual Assistant --><button id="skill-Virtual_Assistant" onclick="selectSkill('Virtual Assistant')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Virtual Assistant
-                    </button>
-                    <!-- Copy Writing --><button id="skill-Copy_Writing" onclick="selectSkill('Copy Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Copy Writing
-                    </button>
-                    <!-- Content Writing --><button id="skill-Content_Writing" onclick="selectSkill('Content Writing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Content Writing
-                    </button>
-                    <!-- Web Development --><button id="skill-Web_Development" onclick="selectSkill('Web Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Web Development
-                    </button>
-                    <!-- Flutter Mobile Development --><button id="skill-Flutter_Mobile_Development" onclick="selectSkill('Flutter Mobile Development')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Flutter Mobile Dev.
-                    </button>
-                    <!-- Social Media Management --><button id="skill-Social_Media_Management" onclick="selectSkill('Social Media Management')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Social Media Management
-                    </button>
-                    <!-- Digital Marketing --><button id="skill-Digital_Marketing" onclick="selectSkill('Digital Marketing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Digital Marketing
-                    </button>
-                    <!-- Data Analysis --><button id="skill-Data_Analysis" onclick="selectSkill('Data Analysis')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Data Analysis
-                    </button>
-                    <!-- Video Editing --><button id="skill-Video_Editing" onclick="selectSkill('Video Editing')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Video Editing
-                    </button>
-                    <!-- Graphic Design --><button id="skill-Graphic_Design" onclick="selectSkill('Graphic Design')" class="skill-button flex items-center justify-center p-4 bg-light-grey/20 rounded-xl font-medium text-sm text-center shadow-md transform hover:scale-[1.03]">
-                        Graphic Design
-                    </button>
-                </div>
-
-                <div class="text-center mt-10">
-                    <p class="text-sm text-gray-500 italic">
-                        After selecting your skill, scroll down to step 2 to choose your price.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Testimonials Section --><section class="py-20 bg-primary-dark/95 text-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
-                    Proof of Excellence
-                </h2>
-                <p class="text-lg text-light-grey mb-8 max-w-2xl mx-auto">
-                    <span class="text-accent-yellow font-bold">200+ trained</span>—Hear how our alumni are building successful careers globally.
+                
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-light-text/90 mb-10">
+                    Gain a high-demand, remote-ready skill from our 10 specialized skills (Web Dev, Data Analysis, Content Writing, and more) and access Guaranteed Internship Opportunities.
                 </p>
 
-                <!-- Testimonial Horizontal Scroller Container --><!-- The container uses the new testimonial-snap-container class for scroll-snap and scrollbar hiding --><div class="flex overflow-x-auto space-x-6 pb-4 max-w-6xl mx-auto testimonial-snap-container scroll-smooth">
-
-                    <!-- Testimonial 1: Social Media Management (Khamieje) --><!-- Each card uses the new testimonial-card-item class for responsive width and snap alignment --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
-                        <div class="mb-4 border-b pb-4">
-                            <p class="font-bold text-lg text-primary-blue">Khamieje Dmosnoba Precious</p>
-                            <p class="text-xs text-gray-500">Graduate of Social Media Management</p>
-                        </div>
-                        <p class="italic text-base text-gray-700 flex-grow">
-                            "Wow!! That is really all I can say. This bootcamp was really a good one... I am really glad I decided to trust in it. I learnt so much, knowledge wise and practically. I really hope for more opportunities like this."
-                        </p>
-                    </div>
-
-                    <!-- Testimonial 2: Data Analytics (Olise) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
-                        <div class="mb-4 border-b pb-4">
-                            <p class="font-bold text-lg text-primary-blue">Olise Sophia Amarachi</p>
-                            <p class="text-xs text-gray-500">Graduate of Data Analytics</p>
-                        </div>
-                        <p class="italic text-base text-gray-700 flex-grow">
-                            "My experience at the Data Analytics Bootcamp was rewarding. I mastered Google Sheets, Excel skills, and Power BI. This bootcamp taught me to think like a data analyst—a perfect launchpad for anyone entering the field."
-                        </p>
-                    </div>
-
-                    <!-- Testimonial 3: Flutter Mobile Development (Zarah) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-cyan text-left transform hover:shadow-2xl transition duration-300">
-                        <div class="mb-4 border-b pb-4">
-                            <p class="font-bold text-lg text-primary-blue">Zarah Hope</p>
-                            <p class="text-xs text-gray-500">Graduate of Flutter Mobile Development</p>
-                        </div>
-                        <p class="italic text-base text-gray-700 flex-grow">
-                            "The quality of instruction was exceptional... The tutor's knowledge and approachable style made complex topics understandable, and I now feel prepared to tackle challenges in the mobile development field."
-                        </p>
-                    </div>
-                    
-                    <!-- Testimonial 4: Virtual Assistant (Kunle-Efunnuga) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-primary-blue text-left transform hover:shadow-2xl transition duration-300">
-                        <div class="mb-4 border-b pb-4">
-                            <p class="font-bold text-lg text-primary-blue">Kunle-Efunnuga Ruth Ifeoluwa</p>
-                            <p class="text-xs text-gray-500">Graduate of Virtual Assistant Training</p>
-                        </div>
-                        <p class="italic text-base text-gray-700 flex-grow">
-                            "I recently completed the Virtual Assistant Training bootcamp... The teaching quality was exceptional, with clear guidance and practical examples that made complex concepts accessible. I feel well-equipped to advance my career in this dynamic field and highly recommend this bootcamp."
-                        </p>
-                    </div>
-
-                    <!-- Testimonial 5: Graphic Design (Favour Elohor) --><div class="testimonial-card-item flex-shrink-0 bg-white p-6 rounded-2xl shadow-xl text-primary-dark flex flex-col h-full border-t-4 border-accent-yellow text-left transform hover:shadow-2xl transition duration-300">
-                        <div class="mb-4 border-b pb-4">
-                            <p class="font-bold text-lg text-primary-blue">Favour Elohor</p>
-                            <p class="text-xs text-gray-500">Graduate of Graphic Design</p>
-                        </div>
-                        <p class="italic text-base text-gray-700 flex-grow">
-                            "My experience at the bootcamp was wonderful from the very first day to the last. I truly enjoyed learning alongside my classmates. The effectiveness of the tutor's instruction was remarkable and incredibly helpful."
-                        </p>
-                    </div>
-                    
+                <!-- Key Dates & CTA Block (Initial CTA) -->
+                <div class="bg-dark-card p-6 md:p-8 rounded-2xl max-w-2xl mx-auto shadow-3xl border-2 border-primary-cta/50">
+                    <p class="text-xl md:text-2xl font-bold text-white mb-2">
+                        Early Bird Ends Soon
+                    </p>
+                    <p class="text-6xl md:text-7xl font-extrabold mb-4 text-accent-gold">
+                        ₦5,000
+                        <span class="text-2xl text-light-text/60">/ $3 USD</span>
+                    </p>
+                    <a href="#final-enrollment" class="cta-button w-full inline-block bg-primary-cta text-white font-extrabold text-xl py-4 rounded-xl shadow-glow-blue hover:opacity-90">
+                         ENROLL NOW & Secure Your Spot
+                    </a>
+                    <p class="text-sm text-light-text/60 mt-3">Late Registration Price: ₦15,000 / $10 USD. Seats are strictly limited.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 6. Pricing Section --><section id="pricing" class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-4xl mx-auto text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary-dark mb-4">
-                        2. Choose Your Investment
-                    </h2>
-                    <p class="text-lg text-gray-600">
-                        Secure your spot now and lock in the best rate for the complete, career-launching program.
-                    </p>
+        <!-- 2ND: Trust Section (Immediate Credibility) -->
+        <section class="max-w-7xl mx-auto px-4 py-16 text-center">
+            <h3 class="text-2xl font-semibold text-light-text mb-8">
+                Over 200+ Students Launched Their digital Careers with SMARTTECH
+            </h3>
+            <div class="flex flex-wrap justify-center items-center gap-6 text-light-text/70">
+                <span class="flex items-center space-x-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2m0 0h2m0 0l-2 2m2-2l-2-2m2 2h2m-2-2v4m-4 8h10a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2h4"></path></svg>
+                    <span>10 Specialized skills</span>
+                </span>
+                <span class="flex items-center space-x-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Only 5 Weeks</span>
+                </span>
+                <span class="flex items-center space-x-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9h6"></path></svg>
+                    <span>100% Remote & Online</span>
+                </span>
+            </div>
+        </section>
+        
+        <!-- 3RD: Testimonials Section (Desire & Emotional Proof) -->
+        <section class="py-16 md:py-24 bg-dark-card/50">
+            <h3 class="text-3xl md:text-5xl font-extrabold text-center mb-12 text-white">
+                Hear From Our Successful Graduates
+            </h3>
+            
+            <!-- Marquee Container -->
+            <div class="testimonial-container">
+                <!-- Duplicate the track content to ensure seamless looping -->
+                <div class="testimonial-track">
+                    <!-- TESTIMONIALS (Repeated twice for loop effect) -->
+                    <!-- Start of Testimonial Group 1 -->
+                    
+                    <!-- Card 1: Favour Elohor -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "The quality of teaching was excellent. Our instructor effectively answered our questions and provided useful materials. I feel much more confident in my skills now."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=FE" alt="Favour Elohor" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Favour Elohor</p>
+                                <p class="text-sm text-light-text/70">Graduate of Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Khamigje Omosenobua Precious -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "I honestly can't express the amount of appreciation I have for the team. The teachings were so down to earth, understandable, and applicable. It was worth it."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=KO" alt="K.O. Precious" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">K. Omosenobua Precious</p>
+                                <p class="text-sm text-light-text/70">Graduate of Social Media Management</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Kunle-Efunnuga Ruth Ifeoluwa -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "The teaching quality was exceptional, with clear guidance and practical examples that made complex concepts accessible. I highly recommend this bootcamp."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=KR" alt="Kunle-Efunnuga Ruth" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Kunle-Efunnuga Ruth</p>
+                                <p class="text-sm text-light-text/70">Graduate of Virtual Assistant Training</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Olise Sophia Amarachi -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "Our outstanding tutor simplified complex topics and provided invaluable feedback. I can now automate reports and clean data efficiently. Perfect launchpad!"
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=OS" alt="Olise Sophia" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Olise Sophia Amarachi</p>
+                                <p class="text-sm text-light-text/70">Graduate of Data Analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 5: Zarah Hope -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "The well-structured program made learning enjoyable and effective. The tutor's knowledge and approachable style made complex topics understandable and inspired me."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=ZH" alt="Zarah Hope" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Zarah Hope</p>
+                                <p class="text-sm text-light-text/70">Graduate of Flutter Mobile Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- End of Testimonial Group 1 -->
+
+                    <!-- Start of Testimonial Group 2 (Duplicate for Marquee effect) -->
+
+                    <!-- Card 1: Favour Elohor -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "The quality of teaching was excellent. Our instructor effectively answered our questions and provided useful materials. I feel much more confident in my skills now."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=FE" alt="Favour Elohor" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Favour Elohor</p>
+                                <p class="text-sm text-light-text/70">Graduate of Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Khamigje Omosenobua Precious -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "I honestly can't express the amount of appreciation I have for the team. The teachings were so down to earth, understandable, and applicable. It was worth it."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=KO" alt="K.O. Precious" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">K. Omosenobua Precious</p>
+                                <p class="text-sm text-light-text/70">Graduate of Social Media Management</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Kunle-Efunnuga Ruth Ifeoluwa -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "The teaching quality was exceptional, with clear guidance and practical examples that made complex concepts accessible. I highly recommend this bootcamp."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=KR" alt="Kunle-Efunnuga Ruth" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Kunle-Efunnuga Ruth</p>
+                                <p class="text-sm text-light-text/70">Graduate of Virtual Assistant Training</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Olise Sophia Amarachi -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "Our outstanding tutor simplified complex topics and provided invaluable feedback. I can now automate reports and clean data efficiently. Perfect launchpad!"
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=OS" alt="Olise Sophia" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Olise Sophia Amarachi</p>
+                                <p class="text-sm text-light-text/70">Graduate of Data Analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 5: Zarah Hope -->
+                    <div class="testimonial-card bg-primary-bg p-6 rounded-xl shadow-xl border border-primary-cta/40 hover:scale-[1.01] transition duration-300">
+                        <p class="text-lg font-semibold text-white mb-4">
+                            "The well-structured program made learning enjoyable and effective. The tutor's knowledge and approachable style made complex topics understandable and inspired me."
+                        </p>
+                        <div class="flex items-center space-x-4 pt-4 border-t border-light-text/20">
+                            <img src="https://placehold.co/40x40/0B10DE/FFFFFF?text=ZH" alt="Zarah Hope" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-accent-gold font-bold">Zarah Hope</p>
+                                <p class="text-sm text-light-text/70">Graduate of Flutter Mobile Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- End of Testimonial Group 2 -->
+                </div>
+            </div>
+        </section>
+        <!-- End of Testimonials Section -->
+        
+        <!-- 4TH: Key Benefits Section (Interest & Value Justification) -->
+        <section class="max-w-7xl mx-auto px-4 py-16 md:pt-0 md:pb-24 bg-dark-card/50 rounded-2xl shadow-inner border border-primary-bg/50">
+            <h3 class="text-3xl md:text-5xl font-extrabold text-center mb-16 text-accent-gold">
+                What Makes the SMARTTECH Bootcamp Stand Out
+            </h3>
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Learning & Curriculum -->
+                <div class="space-y-8 p-6 bg-dark-card rounded-xl shadow-xl border-l-4 border-primary-cta">
+                    <h4 class="text-3xl font-bold text-white">High-Impact Learning Model</h4>
+                    <ul class="space-y-6">
+                        <li class="flex items-start space-x-4">
+                            <span class="text-primary-cta text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2v5h3m-3 0v-5m0 0c-1.657 0-3-.895-3-2s1.343-2 3-2z"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Self-Paced Video Library:</strong> Access all video lessons instantly and learn at your own pace, fitting education around your schedule.
+                            </p>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="text-primary-cta text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.789v6.422a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Live Tutors & Q&A:</strong> Weekly live sessions ensure you receive personalized, practical guidance and never get stuck.
+                            </p>
+                        </li>
+                         <li class="flex items-start space-x-4">
+                            <span class="text-primary-cta text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20v-2c0-.594-.035-1.173-.105-1.743M13 18v1m0-10V4.546c0-.49 1.144-.806 2.593-.687C17.388 4.092 18.25 4 19 4h.01M5 18h5M4 8h.01M19 8h.01M6 18h.01M17 18h.01M17 18V9.5M4.9 16.9H9.1"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Learn From Industry Experts:</strong> Our instructors are experienced professionals who provide current, real-world strategies and insights.
+                            </p>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="text-primary-cta text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.108a9 9 0 10-10.966 11.237l3.208 4.277a1 1 0 001.558-.005l3.208-4.277A9 9 0 0021 12z"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Project-Based Learning:</strong> Hands-on projects and assignments that build a job-ready portfolio you can show employers.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Career & Community -->
+                <div class="space-y-8 p-6 bg-dark-card rounded-xl shadow-xl border-l-4 border-accent-gold">
+                    <h4 class="text-3xl font-bold text-white">Career & Community Support</h4>
+                    <ul class="space-y-6">
+                        <li class="flex items-start space-x-4">
+                            <span class="text-accent-gold text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.565 23.565 0 0112 15c-3.185 0-6.293-.682-9-1.995M10.5 19H12a2 2 0 002-2v-4.793c0-.621.5-1.127 1.122-1.242a.965.965 0 01.76.104l3.712 2.784a.97.97 0 01.353.753V17a2 2 0 01-2 2h-1.5"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Guaranteed Internship:</strong> Direct access to internship opportunities with Smart Tech Solutions & Trainings to gain crucial experience.
+                            </p>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="text-accent-gold text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Certificate & Resources:</strong> Receive a professional Certificate of Completion and access to our exclusive resource library.
+                            </p>
+                        </li>
+                        <li class="flex items-start space-x-4">
+                            <span class="text-accent-gold text-3xl flex-shrink-0">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20v-2c0-.594-.035-1.173-.105-1.743M13 18v1m0-10V4.546c0-.49 1.144-.806 2.593-.687C17.388 4.092 18.25 4 19 4h.01M5 18h5M4 8h.01M19 8h.01M6 18h.01M17 18h.01M17 18V9.5M4.9 16.9H9.1"></path></svg>
+                            </span>
+                            <p class="flex-1">
+                                <strong class="font-semibold text-white text-lg">Lifetime Community:</strong> Get ongoing support and networking with our private Remote Work & Freelancing Community.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-16 text-center">
+                <a href="#final-enrollment" class="inline-block bg-accent-gold text-primary-bg font-extrabold text-2xl py-4 px-12 rounded-xl shadow-lg shadow-accent-gold/50 hover:bg-yellow-400 transition duration-300 transform hover:scale-[1.03]">
+                    ENROLL NOW
+                </a>
+            </div>
+        </section>
+
+        <!-- 5TH: Course Selection Section (Finalizing Interest) -->
+        <section class="max-w-7xl mx-auto px-4 py-16 md:pt-16 md:pb-24">
+            <h3 class="text-3xl md:text-5xl font-extrabold text-center mb-16 text-white">
+                10 High-Demand Skills. One Low Price.
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+                <!-- 1. Virtual Assistance -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2m0 0h2m0 0l-2 2m2-2l-2-2m2 2h2m-2-2v4m-4 8h10a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2h4"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Virtual Assistance</p>
+                    <p class="text-sm text-light-text/70">Become an indispensable remote assistant.</p>
                 </div>
                 
-                <!-- Dynamic Skill Display Banner --><div id="selectedSkillDisplay" class="hidden max-w-2xl mx-auto bg-primary-blue text-white p-4 rounded-xl text-center text-xl font-bold mb-8 shadow-lg transition duration-300 transform scale-100">
-                    <!-- Text will be updated by selectSkill() function -->Enrolling for: [Skill Name Placeholder]
+                <!-- 2. Video Editing -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.789v6.422a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Video Editing</p>
+                    <p class="text-sm text-light-text/70">Master production for social media and brands.</p>
+                </div>
+                
+                <!-- 3. Web Development -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Web Development</p>
+                    <p class="text-sm text-light-text/70">Build fast, modern websites from scratch.</p>
+                </div>
+                
+                <!-- 4. Data Analysis -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Data Analysis</p>
+                    <p class="text-sm text-light-text/70">Turn raw data into actionable business insights.</p>
+                </div>
+                
+                <!-- 5. Graphic Design -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-9-6h.01M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Graphic Design</p>
+                    <p class="text-sm text-light-text/70">Create compelling visual content and branding.</p>
+                </div>
+                
+                <!-- 6. Content Writing -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Content Writing</p>
+                    <p class="text-sm text-light-text/70">Engage audiences with high-quality blog posts and articles.</p>
+                </div>
+                
+                <!-- 7. Copywriting -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Copywriting</p>
+                    <p class="text-sm text-light-text/70">Write high-converting sales and marketing materials.</p>
+                </div>
+                
+                <!-- 8. Flutter Mobile Dev -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Flutter Mobile Dev</p>
+                    <p class="text-sm text-light-text/70">Develop cross-platform mobile applications.</p>
+                </div>
+                
+                <!-- 9. Digital Marketing -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Digital Marketing</p>
+                    <p class="text-sm text-light-text/70">Drive traffic, leads, and sales for any business.</p>
                 </div>
 
+                <!-- 10. Social Media Management -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-lg transition duration-300 border border-primary-cta/40 card-hover flex flex-col items-start space-y-2">
+                    <span class="text-primary-cta p-2 bg-primary-cta/10 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6.364-1.636a2 2 0 112.828 2.828l-7.485 7.485A5 5 0 0113.313 18H5V6h6.828a2 2 0 011.414.586l4.242 4.242z"></path></svg>
+                    </span>
+                    <p class="text-lg font-bold text-white">Social Media Management</p>
+                    <p class="text-sm text-light-text/70">Develop effective strategies to boost online presence.</p>
+                </div>
+            </div>
+        </section>
 
-                <div class="flex flex-col lg:flex-row justify-center space-y-8 lg:space-y-0 lg:space-x-8">
-                    <!-- Early Bird Offer Card --><div class="flex-1 max-w-md mx-auto bg-primary-dark text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden transform scale-105 border-4 border-accent-yellow">
-                        <div class="absolute top-0 right-0 bg-accent-yellow text-primary-dark px-4 py-1 rounded-bl-lg font-bold text-sm">BEST VALUE</div>
-                        <h3 class="text-3xl font-extrabold text-accent-yellow mb-2">Early Bird Special</h3>
-                        <p class="text-light-grey text-lg mb-6">Limited spots available at this price!</p>
+        <!-- 6TH: Final Pricing & Registration Section (Action) -->
+        <section class="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center" id="final-enrollment">
+            <div class="max-w-4xl mx-auto bg-dark-card p-8 rounded-2xl border-4 border-primary-cta shadow-3xl shadow-primary-cta/40">
+                <p class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+                    Complete Your Enrollment
+                </p>
+                <p class="text-xl text-light-text/90 mb-8">
+                    Click the button below to finalize the <span class="text-accent-gold font-bold">₦5,000 / $3 USD Early Bird</span> registration via the secure payment link.
+                </p>
 
-                        <div class="text-4xl font-extrabold flex items-baseline justify-center mb-1">
-                            <span class="text-xl line-through text-red-400 mr-4">₦8,000</span>
-                            <span class="text-5xl">₦5,000</span>
-                        </div>
-                        <p class="text-light-grey text-lg mb-6 text-center">or <span class="text-accent-cyan font-bold text-3xl">$3 USD</span></p>
-
-                        <ul class="space-y-3 text-sm text-light-grey mb-8">
-                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Full Bootcamp Access (1 Skill Track)</li>
-                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Career-Focused Mentorship</li>
-                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Hands-on Project Portfolio Building</li>
-                            <li class="flex items-center"><span class="text-accent-yellow mr-2">✓</span> Premium Discount Rate</li>
-                        </ul>
-
-                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION --><div class="space-y-4">
-                            <button onclick="handlePaymentClick(5000, 'Naira')" class="w-full py-3 bg-accent-yellow text-primary-dark font-bold text-lg rounded-xl hover:bg-yellow-500 transition duration-300 shadow-lg transform hover:scale-[1.01]">
-                                Pay in Naira (₦5,000)
-                            </button>
-                            <button onclick="handlePaymentClick(3, 'USD')" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-blue/90 transition duration-300 shadow-lg transform hover:scale-[1.01]">
-                                Pay in USD ($3)
-                            </button>
-                        </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Naira Payment -->
+                    <div class="bg-primary-bg p-6 rounded-xl border border-primary-cta shadow-lg">
+                        <p class="text-xl font-bold text-white mb-2">Registration in <span class="text-accent-gold">Naira (₦)</span></p>
+                        <p class="text-6xl font-black text-accent-gold mb-6">₦5,000</p>
+                        <!-- Updated with Paystack Link -->
+                        <a href="https://paystack.shop/pay/smartt" class="cta-button w-full inline-block bg-accent-gold text-primary-bg font-extrabold text-lg py-4 rounded-lg hover:bg-yellow-400 transition transform hover:scale-[1.01]" target="_blank">
+                            Proceed to Payment
+                        </a>
                     </div>
 
-                    <!-- Late Bird Offer Card --><div class="flex-1 max-w-md mx-auto bg-white p-8 rounded-3xl shadow-lg border-2 border-light-grey/50">
-                        <h3 class="text-3xl font-extrabold text-primary-dark mb-2">Standard Enrollment</h3>
-                        <p class="text-gray-600 text-lg mb-6">Price after the Early Bird window closes.</p>
-
-                        <div class="text-5xl font-extrabold text-primary-blue flex items-baseline justify-center mb-1">
-                            ₦8,000
-                        </div>
-                        <p class="text-gray-600 text-lg mb-6 text-center">or <span class="font-bold text-3xl">$5 USD</span></p>
-
-                        <ul class="space-y-3 text-sm text-gray-600 mb-8">
-                            <li class="flex items-center"><span class="text-primary-blue mr-2">✓</span> Full Bootcamp Access (1 Skill Track)</li>
-                            <li class="flex items-center"><span class="text-primary-blue mr-2">✓</span> Career-Focused Mentorship</li>
-                            <li class="flex items-center"><span class="text-primary-blue mr-2">✓</span> Hands-on Project Portfolio Building</li>
-                            <li class="flex items-center"><span class="text-primary-blue mr-2">✗</span> No Early Bird Discount</li>
-                        </ul>
-
-                        <!-- Payment Gateway CTAs - NOW USE JS FUNCTION --><div class="space-y-4">
-                            <button onclick="handlePaymentClick(8000, 'Naira')" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark/90 transition duration-300 shadow-md">
-                                Pay in Naira (₦8,000)
-                            </button>
-                            <button onclick="handlePaymentClick(5, 'USD')" class="w-full py-3 bg-primary-dark text-white font-bold text-lg rounded-xl hover:bg-primary-blue transition duration-300 shadow-md">
-                                Pay in USD ($5)
-                            </button>
-                        </div>
+                    <!-- USD Payment -->
+                    <div class="bg-primary-bg p-6 rounded-xl border border-primary-cta shadow-lg">
+                        <p class="text-xl font-bold text-white mb-2">Registration in <span class="text-accent-gold">USD ($)</span></p>
+                        <p class="text-6xl font-black text-accent-gold mb-6">$3 USD</p>
+                        <!-- Updated with Paystack Link -->
+                        <a href="https://paystack.shop/pay/smartt" class="cta-button w-full inline-block bg-primary-cta text-white font-extrabold text-lg py-4 rounded-lg hover:opacity-90 transition transform hover:scale-[1.01]" target="_blank">
+                            Proceed to Payment
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 7. Email Capture / Footer --><footer class="bg-primary-dark py-16">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl font-extrabold text-accent-cyan mb-3">
-                        Don't Miss Out on Your Digital Future.
-                    </h2>
-                    <p class="text-light-grey text-lg mb-8">
-                        Join our mailing list for updates, free resources, and early access notifications.
-                    </p>
+        <!-- 7TH: Newsletter & Free Resource Section (Soft Exit / Retention) -->
+        <section class="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
+            <div class="max-w-2xl mx-auto bg-dark-card p-10 rounded-2xl shadow-xl border border-light-text/40">
+                <h3 class="text-3xl font-extrabold text-white mb-4">
+                    Stay Updated with SMARTTECH Insights
+                </h3>
+                <p class="text-lg text-light-text/70 mb-8">
+                    Sign up for our newsletter to get weekly updates, exclusive resources, new course announcements, and industry insights.
+                </p>
 
-                    <!-- Email Capture Form --><form onsubmit="event.preventDefault(); document.getElementById('messageText').textContent='Thank you for subscribing!'; document.getElementById('messageBox').classList.remove('hidden'); setTimeout(() => document.getElementById('messageBox').classList.add('hidden'), 3000);" class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <input type="email" placeholder="Enter your email address (SFProDisplay style input)" required class="w-full sm:flex-1 p-4 rounded-xl text-primary-dark focus:outline-none focus:ring-2 focus:ring-accent-yellow font-['system-ui',_sans-serif]">
-                        <button type="submit" class="px-8 py-4 bg-accent-yellow text-primary-dark font-bold rounded-xl hover:bg-yellow-500 transition duration-300 shadow-md">
-                            Subscribe
-                        </button>
-                    </form>
-
-                    <div class="mt-12 border-t border-light-grey/30 pt-8">
-                        <p class="text-sm text-light-grey">
-                            &copy; 2025 Smart Tech Solutions and Trainings. All rights reserved.
-                        </p>
-                        <!-- Final Motto/Slogan --><p class="text-xs mt-2 text-light-grey/70">
-                            Excellent solutions and trainings.
-                        </p>
-                    </div>
+                <form id="newsletter-form" onsubmit="submitNewsletter(event)" class="space-y-4">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email address..." required 
+                           class="w-full px-5 py-3 rounded-xl bg-primary-bg border border-light-text/40 text-white placeholder-light-text/50 focus:ring-primary-cta focus:border-primary-cta transition" />
+                    
+                    <button type="submit" class="w-full inline-block bg-accent-gold text-primary-bg font-extrabold text-lg py-3 rounded-xl shadow-lg shadow-accent-gold/30 hover:bg-yellow-400 transition duration-300 transform hover:scale-[1.01]">
+                        Subscribe for Updates
+                    </button>
+                </form>
+                
+                <!-- NEW: Admin Tools Container (Hidden by default) -->
+                <div id="admin-tools" class="hidden">
+                    <button onclick="exportEmails(this)" id="export-button" class="export-button mt-6 w-full inline-flex items-center justify-center space-x-2 bg-dark-card border border-light-text/50 text-light-text font-extrabold text-sm py-3 px-4 rounded-xl hover:bg-light-text hover:text-primary-bg transition duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span>Download Subscriber Emails (Admin Only)</span>
+                    </button>
                 </div>
+            </div>
+        </section>
+
+        <!-- 8TH: Footer -->
+        <footer class="max-w-7xl mx-auto px-4 py-8 text-center border-t border-light-text/30">
+            <p class="text-sm text-light-text/50">
+                &copy; 2025 SMART TECH Solutions and Trainings. All Rights Reserved.
+            </p>
+            <div class="mt-2 text-xs space-x-4 text-light-text/60">
+                <a href="#" class="hover:text-white transition">FAQ</a>
+                <a href="#" class="hover:text-white transition">Terms & Conditions</a>
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
             </div>
         </footer>
 
-    </main>
+    </div>
+    
+    <!-- Floating WhatsApp/Chat Button -->
+    <button onclick="openWhatsAppChat()" class="fixed-chat-button bg-accent-cyan text-primary-bg font-bold p-4 rounded-full shadow-glow-cyan hover:shadow-3xl transition duration-300 flex items-center space-x-2">
+        <!-- WhatsApp Icon (using inline SVG for reliability) -->
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.031 2.25A9.78 9.78 0 002.25 12.031c0 1.93.535 3.8.423 5.46l-1.013 3.693 3.791-1.025c1.558.42 3.237.618 4.98.618a9.78 9.78 0 009.781-9.781 9.78 9.78 0 00-9.781-9.781zM18.81 16.591a1.05 1.05 0 01-.223.473c-.225.26-.54.382-.897.382a3.83 3.83 0 01-1.782-.486c-.722-.383-1.666-.884-2.736-1.574-.954-.61-1.776-1.353-2.484-2.181a4.84 4.84 0 01-1.121-2.072 1.05 1.05 0 01.38-.905c.15-.12.355-.18.57-.18.15 0 .285.022.405.066s.22.115.32.189c.1.075.18.163.24.267.06.1.09.21.09.324s-.04.22-.12.33c-.08.11-.2.24-.37.388-.17.147-.28.27-.33.364s-.065.18-.065.29c0 .114.04.224.12.33.08.11.2.24.37.388.17.147.37.31.6.49s.48.37.76.57c.28.2.59.39.93.57.34.18.67.33.99.45.32.12.63.17.93.17.3 0 .59-.05.87-.15.28-.1.52-.27.72-.51.2-.24.33-.5.4-.78.07-.28.09-.54.09-.78 0-.28-.06-.52-.18-.72-.12-.2-.29-.36-.51-.48-.22-.12-.39-.18-.51-.18-.17 0-.32.06-.45.18-.13.12-.24.26-.33.42s-.12.34-.12.54c0 .24.04.48.12.72.08.24.2.46.37.66.17.2.39.38.66.54s.55.28.85.36c.3.08.57.12.8.12.23 0 .43-.05.6-.15.17-.1.3-.23.4-.4.1-.17.15-.34.15-.51 0-.25-.05-.48-.15-.7c-.1-.22-.27-.45-.51-.7-.24-.25-.57-.59-1-.07-.43.52-.77.85-1.02 1.02-.25.17-.38.35-.38.54 0 .15.04.29.12.42.08.13.2.26.37.38.17.12.37.23.6.34.23.1.48.15.75.15.28 0 .55-.05.81-.15.26-.1.49-.24.69-.42.2-.18.33-.4.4-.66.07-.26.08-.52.03-.78-.05-.26-.17-.5-.36-.72-.19-.22-.44-.43-.75-.63-.3-.2-.58-.39-.84-.57z"/>
+        </svg>
+        <span class="text-white font-semibold hidden md:inline">Chat with us (24/7 Support)</span>
+    </button>
 
-    <!-- Early Bird Offer Modal --><div id="earlyBirdModal" style="opacity: 0;" class="hidden fixed inset-0 bg-primary-dark/80 z-50 flex items-center justify-center p-4 modal-transition-container">
-        <div id="earlyBirdModalContent" class="bg-white p-8 rounded-3xl shadow-2xl max-w-lg w-full text-center relative transform modal-transition-content scale-90">
-            <!-- Close Button --><button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-primary-dark transition duration-200 focus:outline-none">
+    <!-- POP-UP MODAL (Exit-Intent / Time Delay) -->
+    <div id="conversion-modal" class="modal-overlay" onclick="closePopup(event)">
+        <div class="modal-content text-center" onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button onclick="closePopup()" class="absolute top-4 right-4 text-light-text hover:text-white transition" aria-label="Close Pop-up">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-
-            <div class="mb-6">
-                <span class="inline-block bg-accent-yellow text-primary-dark font-extrabold px-3 py-1 rounded-full text-sm uppercase tracking-wider mb-3">Limited Time Offer!</span>
-                <h3 class="text-4xl font-extrabold text-primary-blue mb-2">Unlock Your Digital Career</h3>
-                <p class="text-xl text-primary-dark/80">Join our Bootcamp for an unbeatable price!</p>
+            
+            <p class="text-xl font-bold uppercase text-accent-gold mb-2 mt-4">WAIT! Don't Miss Out!</p>
+            
+            <h3 class="text-4xl font-extrabold text-white mb-6">
+                Your <span class="text-primary-cta">₦5,000 Early Bird</span> Price is Vanishing!
+            </h3>
+            
+            <p class="text-light-text/90 text-lg mb-8">
+                Secure your spot in **10 High-Demand Tracks** and get the Guaranteed Internship access before the price increases to ₦8,000.
+            </p>
+            
+            <!-- High-Impact Price Display -->
+            <div class="inline-block bg-primary-bg p-4 rounded-lg border-2 border-accent-gold shadow-popup-glow">
+                <p class="text-5xl font-black text-accent-gold">
+                    ₦5,000
+                    <span class="text-xl text-light-text/60">/ $3 USD</span>
+                </p>
             </div>
             
-            <div class="bg-light-grey/30 p-4 rounded-xl mb-6">
-                <p class="text-lg font-bold text-gray-700">Today's Price:</p>
-                <!-- USD price displayed here --><p class="text-6xl font-extrabold text-primary-dark">₦5,000</p>
-                <p class="text-2xl font-semibold text-primary-dark/90 mt-1">or $3 USD</p>
-                <p class="text-sm text-gray-500 line-through mt-2">Standard: ₦8,000 / $5 USD</p>
-            </div>
+            <!-- CTA Button -->
+            <a href="#final-enrollment" onclick="closePopup()" class="cta-button w-full mt-8 inline-block bg-primary-cta text-white font-extrabold text-xl py-4 rounded-xl shadow-glow-blue hover:opacity-90">
+                👉 YES, I Want the ₦5,000 Discount
+            </a>
+            
+            <p class="text-xs text-light-text/50 mt-4">Registration ends Nov 3rd, 2025. Limited seats remaining.</p>
 
-            <button onclick="closeModal(); scrollToSection('skills');" class="w-full py-3 bg-primary-blue text-white font-bold text-lg rounded-xl hover:bg-primary-dark transition duration-300 shadow-xl shadow-primary-blue/50 transform hover:scale-[1.02]">
-                Select Your Skill & Claim Discount
-            </button>
-            <p onclick="closeModal()" class="text-sm text-gray-500 mt-4 cursor-pointer hover:text-primary-blue/80 transition duration-200">No thanks, I'll pay the standard price later.</p>
         </div>
     </div>
+    
+    <!-- Firebase Initialization and Script Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // ====================================================================================
+        // *** ADMIN CONFIGURATION AREA (FIXED: NOW A STRING) ***
+        //
+        // Your Admin User ID has been converted to a string to fix the "leading zeros" error.
+        // ====================================================================================
+        const ADMIN_USER_ID = "00027452538644333399"; 
+
+        // --- Global Firebase Variables ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app;
+        let db;
+        let auth;
+        let userId = null;
+        let isAuthReady = false;
+
+        setLogLevel('Debug');
+        
+        // Function to check if the current user is the Admin and toggle visibility
+        function checkAdminStatus() {
+            const exportContainer = document.getElementById('admin-tools');
+            // Check if the current authenticated user ID matches the hardcoded Admin ID
+            if (userId && ADMIN_USER_ID !== "REPLACE_THIS_WITH_YOUR_FIREBASE_UID" && userId === ADMIN_USER_ID) {
+                exportContainer.classList.remove('hidden');
+                console.log("Admin privileges granted. Download button visible.");
+            } else if (exportContainer) {
+                exportContainer.classList.add('hidden');
+            }
+        }
+
+        // --- Core Initialization Function ---
+        async function initFirebase() {
+            if (!firebaseConfig) {
+                console.error("Firebase config is missing.");
+                showSystemMessage("Error: Firebase configuration is not available.", 'bg-red-600');
+                return;
+            }
+
+            try {
+                // 1. Initialize App and Services
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // 2. Handle Authentication
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        // Log the user ID to the console for the admin to copy
+                        console.log("Current User ID (Copy this to set ADMIN_USER_ID):", userId); 
+                    } else {
+                        // User is signed out or initially anonymous
+                        try {
+                             if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                                userId = auth.currentUser.uid;
+                                console.log("Current User ID (Copy this to set ADMIN_USER_ID):", userId);
+                            } else {
+                                await signInAnonymously(auth);
+                                userId = auth.currentUser.uid;
+                                console.log("Current User ID (Copy this to set ADMIN_USER_ID):", userId);
+                            }
+                        } catch (error) {
+                            console.error("Authentication Error:", error);
+                            showSystemMessage("Authentication failed. Data saving will not work.", 'bg-red-600');
+                        }
+                    }
+                    isAuthReady = true;
+                    // Run admin check immediately after auth state is determined
+                    checkAdminStatus(); 
+                });
+            } catch (error) {
+                console.error("Firebase Initialization Failed:", error);
+                showSystemMessage("Error: Could not initialize Firebase services.", 'bg-red-600');
+            }
+        }
+        
+        initFirebase();
+        
+        // --- Helper Function for UI Messages ---
+        function showSystemMessage(message, colorClass = 'bg-green-600') {
+            const messageBox = document.getElementById('message-box');
+            const messageText = document.getElementById('message-text');
+            
+            messageText.textContent = message;
+            
+            // Clear previous color classes and apply new one
+            messageBox.className = 'fixed top-5 right-5 p-4 rounded-xl shadow-lg text-white font-semibold z-[100] transition-all duration-300 transform';
+            messageBox.classList.add(colorClass);
+            messageBox.classList.remove('hidden'); 
+            
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        window.hideMessage = () => {
+            document.getElementById('message-box').classList.add('hidden');
+        }
+
+        window.openWhatsAppChat = () => {
+            const phoneNumber = '2348167068421'; 
+            const message = encodeURIComponent(
+                "Hello SMARTTECH Team, I need help with (Please type your question here, e.g., 'Payment options' or 'Flutter Course content')"
+            );
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // --- Newsletter Submission Logic (Saves to Firestore) ---
+        window.submitNewsletter = async (event) => {
+            event.preventDefault();
+            const emailInput = document.getElementById('newsletter-email');
+            const email = emailInput.value.trim();
+
+            if (!isAuthReady || !db) {
+                showSystemMessage("System not ready. Please wait a moment and try again.", 'bg-red-600');
+                return;
+            }
+
+            if (email === "" || !email.includes('@')) {
+                showSystemMessage("Please enter a valid email address.", 'bg-red-600');
+                return;
+            }
+
+            try {
+                // Public data path: /artifacts/{appId}/public/data/newsletter_subscribers
+                const subscribersCollectionRef = collection(db, `artifacts/${appId}/public/data/newsletter_subscribers`);
+                
+                await addDoc(subscribersCollectionRef, {
+                    email: email,
+                    subscribedAt: new Date().toISOString(),
+                    subscriberId: userId,
+                });
+
+                showSystemMessage(`Success! The email "${email}" has been saved.`);
+                emailInput.value = ''; // Clear input
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                showSystemMessage("Failed to save email. Please check the console for details.", 'bg-red-600');
+            }
+        }
+
+        // --- Export Emails Logic (Fetches from Firestore and creates CSV) ---
+        window.exportEmails = async (buttonElement) => {
+            if (!isAuthReady || !db || userId !== ADMIN_USER_ID) {
+                 showSystemMessage("Unauthorized access attempt blocked.", 'bg-red-600');
+                 return;
+            }
+            
+            // Disable button and show loading state
+            buttonElement.disabled = true;
+            buttonElement.innerHTML = `<svg class="animate-spin w-5 h-5 text-light-text" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Fetching Data...</span>`;
+            
+            try {
+                const subscribersCollectionRef = collection(db, `artifacts/${appId}/public/data/newsletter_subscribers`);
+                const querySnapshot = await getDocs(subscribersCollectionRef);
+
+                let csvContent = "Email,Subscribed At (UTC),Document ID\n";
+                let count = 0;
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const formattedDate = data.subscribedAt ? new Date(data.subscribedAt).toUTCString() : "N/A";
+                    // CSV values are escaped in case the email contains a comma, though unlikely
+                    csvContent += `"${data.email}", "${formattedDate}", "${doc.id}"\n`;
+                    count++;
+                });
+
+                if (count === 0) {
+                    showSystemMessage("No subscribers found to export.", 'bg-yellow-600');
+                    return;
+                }
+
+                // Create a Blob and a link to download the CSV
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                
+                link.href = URL.createObjectURL(blob);
+                link.setAttribute('download', `smarttech_subscribers_${new Date().toISOString().slice(0, 10)}.csv`);
+                
+                // Append to body, click, and remove
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showSystemMessage(`Successfully exported ${count} subscriber emails to CSV.`, 'bg-green-600');
+
+            } catch (error) {
+                console.error("Error exporting emails: ", error);
+                showSystemMessage("Failed to export emails. Check permissions or console log.", 'bg-red-600');
+
+            } finally {
+                // Re-enable button
+                buttonElement.disabled = false;
+                buttonElement.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg><span>Download Subscriber Emails (Admin Only)</span>`;
+            }
+        }
+        
+        // =========================================================================
+        // POP-UP / MODAL LOGIC FOR CONVERSION
+        // =========================================================================
+        const CONVERSION_POPUP_KEY = 'smarttech_popup_viewed';
+
+        function checkSessionViewed() {
+            // Checks if the user has seen the pop-up this session
+            return sessionStorage.getItem(CONVERSION_POPUP_KEY) === 'true';
+        }
+
+        function setSessionViewed() {
+            // Marks the pop-up as viewed for the current session
+            sessionStorage.setItem(CONVERSION_POPUP_KEY, 'true');
+        }
+
+        window.showPopup = function() {
+            const modal = document.getElementById('conversion-modal');
+            if (modal && !checkSessionViewed()) {
+                modal.classList.add('open');
+                setSessionViewed(); // Mark as seen immediately
+                // Disable scrolling on the body while modal is open
+                document.body.style.overflow = 'hidden'; 
+                console.log("Conversion pop-up shown.");
+            }
+        }
+
+        window.closePopup = function(event) {
+             const modal = document.getElementById('conversion-modal');
+             if (modal) {
+                 // Check if the click originated from the overlay itself, not the content
+                 if (event && event.target.id === 'conversion-modal' || !event) {
+                     modal.classList.remove('open');
+                     // Re-enable scrolling
+                     document.body.style.overflow = 'auto'; 
+                 }
+             }
+        }
+
+        // --- Pop-up Triggers ---
+
+        // 1. Time Delay Trigger (7 seconds)
+        window.setTimeout(() => {
+            window.showPopup();
+        }, 7000); 
+
+        // 2. Exit Intent Trigger (Desktop only)
+        document.addEventListener('mouseout', (e) => {
+            // Check for modern exit intent pattern (mouse moving upwards and out of the viewport)
+            if (e.relatedTarget === null && e.clientY < 50) { 
+                // Only trigger if screen width is desktop size or larger (e.g., > 768px)
+                if (window.innerWidth >= 768) {
+                    window.showPopup();
+                }
+            }
+        });
+
+    </script>
 </body>
 </html>

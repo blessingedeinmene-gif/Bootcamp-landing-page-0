@@ -20,7 +20,7 @@
                         'primary-bg': '#0F2240',      // white - Background
                         'primary-cta': '#0B10DE',     // Electric Blue - Primary Action
                         'accent-gold': '#FEC611',     // Bright Gold/Yellow - Urgency/Accent 1
-                        'accent-cyan': '#36CEFF',     // Light Cyan/Blue - Secondary Accent 2
+                        'accent-cyan': '#36CEFF',     // Light white - Secondary Accent 2
                         'light-text': '#C2C4EB',      // Light Lavender/Periwinkle - Main Text Color
                         
                         // Retaining a white card color for depth against primary-bg
@@ -129,45 +129,6 @@
         @media (max-width: 768px) {
             .testimonial-card {
                 width: 280px;
-            }
-        }
-        
-        /* POP-UP MODAL STYLES */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: #1C243B; /* dark-card */
-            width: 90%;
-            max-width: 500px;
-            padding: 2rem;
-            border-radius: 1rem;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.open .modal-content {
-            transform: scale(1);
-        }
-        /* End POP-UP MODAL STYLES */
 
     </style>
 </head>
@@ -603,7 +564,7 @@
                         <p class="text-xl font-bold text-white mb-2">Registration in <span class="text-accent-gold">Naira (₦)</span></p>
                         <p class="text-6xl font-black text-accent-gold mb-6">₦5,000</p>
                         <!-- Updated with Paystack Link -->
-                        <a href="https://paystack.shop/pay/smartt" class="cta-button w-full inline-block bg-accent-gold text-primary-bg font-extrabold text-lg py-4 rounded-lg hover:bg-yellow-400 transition transform hover:scale-[1.01]" target="_blank">
+                        <a href="https://paystack.shop/pay/smarttechst" class="cta-button w-full inline-block bg-accent-gold text-primary-bg font-extrabold text-lg py-4 rounded-lg hover:bg-yellow-400 transition transform hover:scale-[1.01]" target="_blank">
                             Proceed to Payment
                         </a>
                     </div>
@@ -613,7 +574,7 @@
                         <p class="text-xl font-bold text-white mb-2">Registration in <span class="text-accent-gold">USD ($)</span></p>
                         <p class="text-6xl font-black text-accent-gold mb-6">$3 USD</p>
                         <!-- Updated with Paystack Link -->
-                        <a href="https://paystack.shop/pay/smartt" class="cta-button w-full inline-block bg-primary-cta text-white font-extrabold text-lg py-4 rounded-lg hover:opacity-90 transition transform hover:scale-[1.01]" target="_blank">
+                        <a href="https://paystack.shop/pay/smarttechst" class="cta-button w-full inline-block bg-primary-cta text-white font-extrabold text-lg py-4 rounded-lg hover:opacity-90 transition transform hover:scale-[1.01]" target="_blank">
                             Proceed to Payment
                         </a>
                     </div>

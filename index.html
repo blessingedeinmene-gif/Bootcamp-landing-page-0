@@ -24,7 +24,7 @@
                         'light-text': '#C2C4EB',      // Light Lavender/Periwinkle - Main Text Color
                         
                         // Retaining a white card color for depth against primary-bg
-                        'white-card': '#1C243B', 
+                        'dark-card': '#1C243B', 
                     },
                     fontFamily: {
                         // Poppins as the primary font, with Sfprodisplay fallback
@@ -50,6 +50,8 @@
             color: #C2C4EB; /* light-text */
             font-family: 'Poppins', 'Sfprodisplay', sans-serif;
             transition: background-color 0.3s;
+            /* CRITICAL FIX: Ensure body is explicitly set to scrollable by default */
+            overflow-y: auto; 
         }
         .hero-section {
             /* Abstract geometric background pattern for a tech vibe */
@@ -129,6 +131,49 @@
         @media (max-width: 768px) {
             .testimonial-card {
                 width: 280px;
+            }
+        }
+        
+        /* === POP-UP MODAL STYLES (Added to fix the scrolling issue) === */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            /* Default hidden state */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #1C243B; /* dark-card */
+            padding: 32px;
+            border-radius: 16px;
+            max-width: 90%;
+            width: 450px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 40px rgba(254, 198, 17, 0.8); /* popup-glow */
+            border: 2px solid #FEC611;
+        }
+        
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+        /* ============================================================= */
 
     </style>
 </head>
@@ -649,7 +694,7 @@
             </h3>
             
             <p class="text-light-text/90 text-lg mb-8">
-                Secure your spot in **10 High-Demand Tracks** and get the Guaranteed Internship access before the price increases to ₦8,000.
+                Secure your spot in <strong>10 High-Demand Tracks</strong> and get the Guaranteed Internship access before the price increases to ₦15,000.
             </p>
             
             <!-- High-Impact Price Display -->
@@ -874,7 +919,7 @@
             } finally {
                 // Re-enable button
                 buttonElement.disabled = false;
-                buttonElement.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg><span>Download Subscriber Emails (Admin Only)</span>`;
+                buttonElement.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/234/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg><span>Download Subscriber Emails (Admin Only)</span>`;
             }
         }
         
